@@ -6,7 +6,8 @@
 		(function(d, m){
 			var kommunicateSettings = 
 				{"appId":"3eeb7df4d521f3e3af1ede82b8dd0977a","popupWidget":true,"automaticChatOpenOnNavigation":true};
-        kommunicateSettings.onInit = function () {
+          kommunicateSettings.restartConversationByUser = true;
+	  kommunicateSettings.onInit = function () {
           setTimeout(function() {
               Kommunicate.launchConversation();
            }, 1000); // Delay of 1 second

@@ -7,10 +7,18 @@
 			var kommunicateSettings = 
 				{"appId":"3eeb7df4d521f3e3af1ede82b8dd0977a","popupWidget":true,"automaticChatOpenOnNavigation":true};
 	  kommunicateSettings.onInit = function () {
-          setTimeout(function() {
-              Kommunicate.launchConversation();
-           }, 1000); // Delay of 1 second
-        }
+            setTimeout(function() {
+                Kommunicate.launchConversation();
+                // Add code to close the chatbot session after a delay (e.g., 5 seconds)
+                setTimeout(function() {
+                    Kommunicate.closeChat();
+                    // Add code to open the chatbot again after a delay (e.g., 2 seconds)
+                    setTimeout(function() {
+                        Kommunicate.launchConversation();
+                    }, 2000);
+                }, 5000);
+            }, 1000); // Delay of 1 second
+        };
 		  	var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
 			  s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
 			  var h = document.getElementsByTagName("head")[0]; h.appendChild(s);

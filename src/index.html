@@ -9,7 +9,9 @@
 	   kommunicateSettings.onInit = function () {
 		setTimeout(function() {
                   Kommunicate.launchConversation();
-                }, 1000); // Delay of 5 second
+                }, 5000); // Delay of 5 second
+		var cssChanges ="#mck-tab-title { color: #5c6274 ;font-weight: bold;font-style: Monospace;}"; // graphite gray
+                Kommunicate.customizeWidgetCss(cssChanges);   
            }
 		  	var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
 			  s.src = "https://widget.kommunicate.io/v2/kommunicate.app";

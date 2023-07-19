@@ -1,25 +1,37 @@
 <!DOCTYPE html>
 <html>
 <body>
-   <script type="text/javascript">
+	<script type="text/javascript">
 		(function(d, m){
 			var kommunicateSettings = 
-				{"appId":"3eeb7df4d521f3e3af1ede82b8dd0977a","popupWidget":true,"automaticChatOpenOnNavigation":true};
-	   kommunicateSettings.onInit = function () {
-		setTimeout(function() {
-                  Kommunicate.launchConversation();
-                }, 5000); // Delay of 5 second
-		var cssChanges ="#mck-tab-title { color: #5c6274 ;font-weight: bold;font-style: Monospace;}"; // graphite gray
-                Kommunicate.customizeWidgetCss(cssChanges);   
-           }
-		  	var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
-			  s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
-			  var h = document.getElementsByTagName("head")[0]; h.appendChild(s);
-			  window.kommunicate = m; m._globals = kommunicateSettings;
+				{"appId":"3eeb7df4d521f3e3af1ede82b8dd0977a",
+				 "popupWidget":true,
+				 "automaticChatOpenOnNavigation":true,
+				 "hidePostCTA":true,
+				 "onInit": function() {
+					 var style = document.createElement('style'); 
+					 var classSettings = ".change-kommunicate-iframe-height{height:80%!important;width: 590px!important;box-shadow: rgba(0, 0, 0, 0.3) 0px 1.5rem 2rem!important;max-height:calc(100% - 30px) !important;}"; 
+					 style.type = 'text/css'; 
+					 style.innerHTML = classSettings; 
+					 document.getElementsByTagName('head')[0].appendChild(style); 
+					 KommunicateGlobal.document.getElementById('mck-sidebox-launcher').addEventListener('click',function(){ var testClick = parent.document.getElementById("kommunicate-widget-iframe"); testClick.classList.add("change-kommunicate-iframe-height"); }); 
+					 KommunicateGlobal.document.getElementById('km-chat-widget-close-button').addEventListener('click',function(){ var testClick = parent.document.getElementById("kommunicate-widget-iframe"); testClick.classList.remove("change-kommunicate-iframe-height"); });
+					 function triggerClickWhenAvailable() {
+						var launcher = KommunicateGlobal.document.getElementById('launcher-svg-container');
+						setTimeout(function() {
+							launcher.click();
+						}, 5000); // Delay of 5 seconds
+					}
+					triggerClickWhenAvailable(); // Start checking immediately
+					}
+				};
+			var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
+			s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
+			var h = document.getElementsByTagName("head")[0]; h.appendChild(s);
+			window.kommunicate = m; m._globals = kommunicateSettings;
 		})(document, window.kommunicate || {});
-	/* NOTE : Use web server to view HTML files as real-time update will not work if you directly open the HTML file in the browser. */
 	</script>
-  
+
 <!doctype html><!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en" > <![endif]--><!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en" >        <![endif]--><!--[if IE 8]>    <html class="no-js lt-ie9" lang="en" >               <![endif]--><!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]--><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">

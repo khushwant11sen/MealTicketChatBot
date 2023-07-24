@@ -40,6 +40,7 @@ function startSpeakingOnLoad() {
 
 async function handleAudio() {
     mcbtn = document.querySelector('#mic_btn');
+    $("#mic_btn").addClass("red");
     // Perform audio input - convert user's spoken query to text using Web Speech API (SpeechRecognition)
     try {
         const recognition = new window.webkitSpeechRecognition(); // For Chrome and Edge, use SpeechRecognition instead of webkitSpeechRecognition

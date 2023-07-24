@@ -40,6 +40,7 @@ function startSpeakingOnLoad() {
 
 async function handleAudio() {
     mcbtn = document.querySelector('#mic_btn');
+    $("#mic_btn").removeClass("black");
     $("#mic_btn").addClass("red");
     // Perform audio input - convert user's spoken query to text using Web Speech API (SpeechRecognition)
     try {
@@ -50,6 +51,7 @@ async function handleAudio() {
             const userSpokenText = event.results[0][0].transcript;
             console.log('User Spoken Text:', userSpokenText);
             // Pass the user's spoken text to Dialogflow Messenger for processing
+            $("#mic_btn").removeClass("red");
             $("#mic_btn").addClass("black");
             sendMessage(userSpokenText,mcbtn);    
         };

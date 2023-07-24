@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Meal ticket</title>
     <style>
         df-messenger {
@@ -22,8 +23,6 @@
             bottom: 113px;
             z-index: 999;
             padding: 8px;
-            border-radius: 50%;
-            border: 1px solid black;
             color: rgb(0, 0, 0);
             visibility: visible;
             display: block;
@@ -43,7 +42,8 @@
     expand = "true"
     chat-icon = "meal-logo.png"
     ></df-messenger>
-    <button  id="mic_btn" onclick="handleAudio()">🎙️</button>
+    <!-- <button  id="mic_btn" onclick="handleAudio()"><i class="fa fa-microphone"></i></button> -->
+    <i id="mic_btn" onclick="handleAudio()" style="font-size:20px;color:red"  class="fa fa-microphone"></i>
     <!-- <button  id="send_btn" onclick="sendBtnClicked()">send</button> -->
    
     <script src="https://apis.google.com/js/api.js"></script>

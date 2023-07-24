@@ -4,18 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Meal ticket</title>
     <style>
-        /* .invi{
- 
-            height: 23px;
-            width: 20px;
-            z-index: 1289;
-            position: absolute;
-            right: 37px;
-            bottom: 36px;
-            content: '';
-        } */
         df-messenger {
             --df-messenger-bot-message: #52555f;
             --df-messenger-button-titlebar-color: #f5a452;
@@ -24,19 +14,17 @@
             --df-messenger-send-icon: #1946e7;
             --df-messenger-user-message: #479b3d;
             --df-messenger-minimized-chat-close-icon-color: #ffffff;
-            
-            
         }
         #mic_btn{
             position: absolute;
-            right: 30px;
+            right: 67px;
             display: block;
             bottom: 113px;
             z-index: 999;
             padding: 8px;
             border-radius: 50%;
             border: 1px solid black;
-            color: black;
+            color: rgb(0, 0, 0);
             visibility: visible;
             display: block;
         }
@@ -44,11 +32,9 @@
 </head>
 <body>
     <h1>Dialogflow Messenger with TTS and SST</h1>
-    <input type="text" id="userQuery" placeholder="Enter your query here" />
     
     <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
 
-    <!-- <div class="invi" id= "invi-lay " onclick="hideMic()"></div>   added custome layer to overlap onclick -->
     <df-messenger
     intent="WELCOME"
     chat-title="MealTicket"
@@ -56,10 +42,9 @@
     language-code="en"
     expand = "true"
     chat-icon = "meal-logo.png"
-    @df-response-received="handleBotResponse"
     ></df-messenger>
     <button  id="mic_btn" onclick="handleAudio()">🎙️</button>
-    
+    <!-- <button  id="send_btn" onclick="sendBtnClicked()">send</button> -->
    
     <script src="https://apis.google.com/js/api.js"></script>
    
@@ -73,92 +58,14 @@
             $r3 = $r2.shadowRoot.querySelector("df-messenger-user-input"); //for other mods
             var sheet = new CSSStyleSheet;
             // manage box height from here
-            sheet.replaceSync( `div.chat-wrapper[opened="true"] { height: 450px }`);
+            sheet.replaceSync( `div.chat-wrapper[opened="true"] { width: 650px; height: 480px }`);
             $r2.shadowRoot.adoptedStyleSheets = [ sheet ];
             });
-            //document.getElementById('closeSvg').addEventListener("click", showMic());
         }
         
         );
     </script>
-    <!-- <script src="https://dialogflow.googleapis.com/js/dialogflow-v2.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <script src="./script.js"></script>
-    <!-- <script type="text/javascript">
-        // Function to initialize the Google Cloud TTS client library
-        function initTTS() {
-            gapi.client.init({
-                apiKey: 'AIzaSyA1cMmSylMmyAa2yKBbmkXCUibaqACY93c',
-                discoveryDocs: ['https://texttospeech.googleapis.com/$discovery/rest?version=v1'],
-            });
-        }
-
-        // Function to handle audio input and output
-        async function handleAudio() {
-            const userQuery = document.getElementById('userQuery').value;
-            micBtn = document.getElementById('mic_btn');
-            // console.log(micBtn);   -- for debug
-            console.log(micBtn)
-
-            // micBtn.style.visibility = "visible";
-
-            // Perform audio input - convert user's spoken query to text using Web Speech API (SpeechRecognition)
-            try {
-                const recognition = new window.webkitSpeechRecognition(); // For Chrome and Edge, use SpeechRecognition instead of webkitSpeechRecognition
-                recognition.continuous = false;
-                recognition.interimResults = false;
-
-                recognition.onresult = (event) => {
-                    const userSpokenText = event.results[0][0].transcript;
-                    console.log('User Spoken Text:', userSpokenText);
-                    // Pass the user's spoken text to Dialogflow Messenger for processing
-                    sendMessage(userSpokenText);
-                };
-                recognition.start();
-            } catch (error) {
-                console.error('Error with speech recognition:', error);
-            }
-        }
-
-        // Function to send a message to Dialogflow Messenger
-        function sendMessage(content) {
-            const inputField = document.querySelector('df-messenger').shadowRoot.querySelector('df-messenger-chat').shadowRoot.querySelector('df-messenger-user-input').shadowRoot.querySelector('input');
-            inputField.value = content;
-            // Simulate 'Enter' keypress to submit the user message
-            const enterEvent = new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, view: window, bubbles: true, cancelable: true });
-            inputField.dispatchEvent(enterEvent);
-        }
-
-        // Function to handle the bot's response and play the audio
-        function handleBotResponse(event) {
-            console.log("we are here")
-            const response = event.detail;
-            if (response) {
-                const fulfillmentMessages = response.queryResult.fulfillmentMessages;
-                for (const message of fulfillmentMessages) {
-                    if (message.message === 'text') {
-                        // Handle text response if needed
-                        const text = message.text.text[0];
-                        console.log('Bot Text Response:', text);
-                    } else if (message.message === 'audio') {
-                        // Handle audio response and play the audio
-                        const audioContent = message.message['rawBytes']; // Assuming the raw audio data is stored in the 'rawBytes' field
-                        console.log('Bot Audio Content:', audioContent);
-                        playAudio(audioContent);
-                    }
-                }
-            }
-        }
-
-        // Function to handle audio playback
-        function playAudio(audioContent) {
-            const audioBlob = new Blob([audioContent], { type: 'audio/mp3' });
-            const audioUrl = URL.createObjectURL(audioBlob);
-            const audioPlayer = new Audio(audioUrl);
-            audioPlayer.play();
-            console.log("played audio");
-        }
-
-    </script> -->
 </body>
 </html>

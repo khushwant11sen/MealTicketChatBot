@@ -50,6 +50,7 @@ async function handleAudio() {
             const userSpokenText = event.results[0][0].transcript;
             console.log('User Spoken Text:', userSpokenText);
             // Pass the user's spoken text to Dialogflow Messenger for processing
+            $("#mic_btn").addClass("black");
             sendMessage(userSpokenText,mcbtn);    
         };
         recognition.start();

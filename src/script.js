@@ -57,6 +57,8 @@ async function handleAudio() {
         };
         recognition.start();
     } catch (error) {
+        $("#mic_btn").removeClass("red");
+        $("#mic_btn").addClass("black");
         console.error('Error with speech recognition:', error);
     }
 }

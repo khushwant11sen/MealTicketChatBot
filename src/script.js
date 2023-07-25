@@ -10,6 +10,13 @@ document.addEventListener('df-response-received', function(event) {
     }
 });
 
+function message_clicked() {
+  message_area = document.querySelector('df-messenger').shadowRoot.querySelector('df-messenger-chat').shadowRoot.querySelector('df-message-list').shadowRoot.getElementById('messageList')
+  message_area.click()
+  mic_btn = document.querySelector('#mic_btn')
+  mic_btn.style.visibility = "visible"
+}
+
 // Function to start speaking on page load
 function startSpeakingOnLoad() {
     const dfMessenger = document.querySelector("df-messenger");
@@ -25,6 +32,7 @@ function startSpeakingOnLoad() {
             micBtn.style.visibility = "hidden";
           }
         });
+        setTimeout(message_clicked,3000)
       } else {
         console.log("not done");
       }

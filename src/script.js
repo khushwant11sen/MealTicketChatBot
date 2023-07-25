@@ -63,6 +63,16 @@ async function handleAudio() {
             $("#mic_btn").addClass("black");
             sendMessage(userSpokenText,mcbtn);    
         };
+        recognition.onerror = (event) =>{
+          console.log("An error occured while recoghinzing")
+            $("#mic_btn").removeClass("red");
+            $("#mic_btn").addClass("black");
+        }
+        recognition.onnomatch  = (event) =>{
+          console.log("No match found while recoghinzing")
+            $("#mic_btn").removeClass("red");
+            $("#mic_btn").addClass("black");
+        }
         recognition.start();
     } catch (error) {
         $("#mic_btn").removeClass("red");

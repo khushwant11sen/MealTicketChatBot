@@ -73,7 +73,75 @@ a.cta_button{-moz-box-sizing:content-box !important;-webkit-box-sizing:content-b
     <!-- <button  id="mic_btn" onclick="handleAudio()"><i class="fa fa-microphone"></i></button> -->
     <i id="mic_btn" onclick="handleAudio()" style="font-size:20px;"  class="fa fa-microphone"></i>
     <!-- <button  id="send_btn" onclick="sendBtnClicked()">send</button> -->
-  
+    <div class="dot">
+      <img src="./vertical_dots.png"  id ="menuBtn" >
+      <div class="dropdown-content" id="dropdown-content">
+          <ul>
+              <li>
+                  <input type="checkbox" id="checkBox">
+                  <span>Text to speech</span>
+              </li>
+          </ul>
+      </div>
+  </div>
+  <style>
+      .dot {
+          position: fixed;
+          right: 28px;
+          z-index: 9999;
+          top: 71px;
+          display: inline-block;
+      }
+      .dot ul {
+          list-style: none;
+      }
+      .dot img{
+          height: 35px;
+          filter: invert(1);
+          visibility: hidden;
+          
+      }
+      .dropdown {
+          position: relative;
+      }
+
+      .toggle-btn {
+      background-color: #f1f1f1;
+      border: none;
+      color: black;
+      padding: 8px 16px;
+      font-size: 16px;
+      cursor: pointer;
+      }
+
+      .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 200px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      right: 0;
+      }
+
+      .dropdown-content ul {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      }
+
+      .dropdown-content ul:hover {
+      background-color: #f1f1f1;
+      }
+
+      /* Show the dropdown content when the toggle is checked */
+      .toggle-btn:checked ~ .dropdown-content {
+      display: block;
+      }
+
+  </style>
+
     <script src="https://apis.google.com/js/api.js"></script>
   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

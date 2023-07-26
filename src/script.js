@@ -6,6 +6,10 @@ document.addEventListener('df-response-received', function(event) {
         if (botReply){
             console.log('Bot Reply: ', botReply);
             speakResponse(botReply);
+            if (botReply.toLowerCase().includes("your name")){
+              console.log("greetings received")
+              setTimeout(message_clicked,0800)
+            }
         }
     }
 });
@@ -15,6 +19,7 @@ function message_clicked() {
   message_area.click()
   mic_btn = document.querySelector('#mic_btn')
   mic_btn.style.visibility = "visible"
+  console.log("opened df chat")
 }
 
 // Function to start speaking on page load
@@ -32,7 +37,6 @@ function startSpeakingOnLoad() {
             micBtn.style.visibility = "hidden";
           }
         });
-        setTimeout(message_clicked,3000)
       } else {
         console.log("not done");
       }

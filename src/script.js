@@ -3,16 +3,42 @@ document.addEventListener('df-response-received', function(event) {
     const response = event.detail;
     if (response){
         const botReply = response.response.queryResult.fulfillmentMessages[0].text.text[0];
-        if (botReply){
+        if (botReply && flag){
             console.log('Bot Reply: ', botReply);
             speakResponse(botReply);
-            if (botReply.toLowerCase().includes("your name")){
+        }
+        if (botReply.toLowerCase().includes("your name")){
               console.log("greetings received")
-              setTimeout(message_clicked,0800)
-            }
+              setTimeout(message_clicked,0660)
         }
     }
 });
+
+var checkBox = document.getElementById('checkBox');
+var flag = false;
+
+checkBox.addEventListener('change', function() {
+  if (this.checked) {
+    console.log('Checkbox is checked.');
+    flag = true;
+  } else {
+    console.log('Checkbox is unchecked.');
+    flag = false;
+  }
+});
+// checkBox.click()
+
+var verticalDots = document.getElementById('menuBtn');
+verticalDots.addEventListener('click', function(){
+  displayMenu();
+});
+
+function displayMenu() {
+  const dropdownContent = document.getElementById('dropdown-content');
+  dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+  console.log(dropdownContent.style.display)
+}
+
 
 function message_clicked() {
   message_area = document.querySelector('df-messenger').shadowRoot.querySelector('df-messenger-chat').shadowRoot.querySelector('df-message-list').shadowRoot.getElementById('messageList')
@@ -20,6 +46,8 @@ function message_clicked() {
   mic_btn = document.querySelector('#mic_btn')
   mic_btn.style.visibility = "visible"
   console.log("opened df chat")
+  var verticalDots = document.getElementById('menuBtn');
+  verticalDots.style.visibility = 'visible'
 }
 
 // Function to start speaking on page load
@@ -30,11 +58,14 @@ function startSpeakingOnLoad() {
       if (shadow) {
         micBtn = document.querySelector('#mic_btn');
         closeBtn = shadow.getElementById('widgetIcon');
+        dots = document.getElementById('menuBtn');
         closeBtn.addEventListener('click', function (event) {
           if (micBtn.style.visibility === "hidden") {
             micBtn.style.visibility = "visible";
+            dots.style.visibility = "visible";
           } else {
             micBtn.style.visibility = "hidden";
+            dots.style.visibility = "hidden";
           }
         });
       } else {

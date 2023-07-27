@@ -29,8 +29,6 @@ function message_clicked() {
   mic_btn = document.querySelector('#mic_btn')
   mic_btn.style.visibility = "visible"
   console.log("opened df chat")
-  var verticalDots = document.getElementById('menuBtn');
-  verticalDots.style.visibility = 'visible'
 }
 
 // Function to start speaking on page load

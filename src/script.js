@@ -1,3 +1,5 @@
+var flag = false;
+
 document.addEventListener('df-response-received', function(event) {
     // Access the response object from the event
     const response = event.detail;
@@ -12,25 +14,6 @@ document.addEventListener('df-response-received', function(event) {
               setTimeout(message_clicked,0660)
         }
     }
-});
-
-var checkBox = document.getElementById('checkBox');
-var flag = false;
-
-checkBox.addEventListener('change', function() {
-  if (this.checked) {
-    console.log('Checkbox is checked.');
-    flag = true;
-  } else {
-    console.log('Checkbox is unchecked.');
-    flag = false;
-  }
-});
-// checkBox.click()
-
-var verticalDots = document.getElementById('menuBtn');
-verticalDots.addEventListener('click', function(){
-  displayMenu();
 });
 
 function displayMenu() {
@@ -127,7 +110,95 @@ function sendMessage(content) {
 }
 
 
+function set_responsive(){
+  // access title bar
+  const dfMessenger =  document.querySelector('df-messenger').shadowRoot.querySelector('df-messenger-chat').shadowRoot
+  const titleBar = dfMessenger.querySelector('df-messenger-titlebar').shadowRoot.querySelector('.title-wrapper');
+
+  //snippet to create div 
+  var newDiv = document.createElement('div');
+  newDiv.id = 'dropdown';
+  newDiv.className= 'dropdown';
+  newDiv.style.position = 'relative';
+  newDiv.style.display = 'inline-block';
+  newDiv.style.height = 'fit-content';
+  newDiv.style.width = 'fit-content';
+  newDiv.style.right = '10px';
+  newDiv.style.padding = '2px';
+  newDiv.style.top = '3px';
+
+  // snippet to create mic image
+  var newImage = document.createElement("img");
+  newImage.id = "tripple-dot-icon";
+  newImage.style.right = "10px";
+  newImage.src = "./vertical_dots.png";
+  newImage.style.height = "30px";
+  newImage.style.filter = "invert(1)";
+  newImage.style.zIndex = "99999";
+  newImage.style.top = "10px";
+
+    // snippet to create drop-down menu
+  var dropDownContent = document.createElement("div");
+  dropDownContent.className = "dropdown-content";
+  dropDownContent.id = "dropdown-content"
+
+
+   // snippet to create checkbox
+  var inputTag = document.createElement('input');
+  inputTag.id = 'checkbox';
+  inputTag.type = "checkbox";
+  inputTag.addEventListener('change',function(){
+    if(this.checked) {
+      flag=true;
+      console.log("checked");
+    }else{
+      flag=false;
+      console.log("unchecked");
+    }
+  });
+
+  // snippet for drop-down menu item
+  var spanTag = document.createElement('span');
+  spanTag.innerText = "Text to speech";
+  spanTag.style.color = "black";
+  spanTag.style.fontSize = "12px";
+  spanTag.style.marginLeft = "5px";
+
+  // append span and input to drop-down
+  dropDownContent.appendChild(inputTag);
+  dropDownContent.appendChild(spanTag);
+  // drop-down styling
+  var styleElement = document.createElement("style");
+  styleElement.innerHTML = `
+  svg{
+    display:none;
+  }
+  .dropdown-content{
+    display: none;
+    position: absolute;
+    padding: 10px;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    align-items: center;
+    right: 0;
+    margin-top: 2px;
+  }
+  .dropdown:hover .dropdown-content{
+    display: flex;
+  }`
+
+  // append everythin to div
+  newDiv.appendChild(newImage);
+  newDiv.appendChild(dropDownContent);
+  newDiv.appendChild(styleElement);
+  // add div to title bar
+  titleBar.appendChild(newDiv);
+}
+
+
+
 function speakResponse(text){
+  try{
     const msg = new SpeechSynthesisUtterance();
     // Set the text to be spoken
     msg.text = text;
@@ -137,17 +208,9 @@ function speakResponse(text){
     // Uncomment the following lines to change the speech rate and pitch (optional)
     // msg.rate = 1.0; // Speech rate (0.1 to 10)
     msg.pitch = 1.3; // Speech pitch (0 to 2)
-  
     // Speak the text
     window.speechSynthesis.speak(msg);
+  }catch (error) {
+    console.error('Error occured while speaking', error);
+  }
 }
-
-
-
-  // Function to initialize the Google Cloud TTS client library
-//   function initTTS() {
-//     gapi.client.init({
-//         apiKey: 'AIzaSyA1cMmSylMmyAa2yKBbmkXCUibaqACY93c',
-//         discoveryDocs: ['https://texttospeech.googleapis.com/$discovery/rest?version=v1'],
-//     });
-// }

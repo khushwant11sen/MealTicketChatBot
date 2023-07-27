@@ -52,6 +52,7 @@ function startSpeakingOnLoad() {
       } else {
         console.log("not done");
       }
+      create_menu_list();
       speakResponse('');
     });
   }
@@ -108,7 +109,7 @@ function sendMessage(content) {
 }
 
 
-function set_responsive(){
+function create_menu_list(){
   // access title bar
   const dfMessenger =  document.querySelector('df-messenger').shadowRoot.querySelector('df-messenger-chat').shadowRoot
   const titleBar = dfMessenger.querySelector('df-messenger-titlebar').shadowRoot.querySelector('.title-wrapper');

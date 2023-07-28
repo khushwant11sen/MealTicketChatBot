@@ -88,9 +88,29 @@ a.cta_button{-moz-box-sizing:content-box !important;-webkit-box-sizing:content-b
             sheet.replaceSync( `div.chat-wrapper[opened="true"] { width: 650px; height: 480px }`);
             $r2.shadowRoot.adoptedStyleSheets = [ sheet ];
             });
-        }
+        });
+         $(document).ready(function() {
+          window.addEventListener('dfMessengerLoaded', function (event) {
+            var r1 = document.querySelector("df-messenger");
+            var r2 = r1.shadowRoot.querySelector("df-messenger-chat");
+            var r3 = r2.shadowRoot.querySelector("df-messenger-titlebar");
+            var dfTitlebar = r3.shadowRoot.querySelector("#dfTitlebar");
         
-        );
+            // Create a new image element
+            var img = document.createElement("img");
+            img.src = './meal-logo.png';
+            img.style.height = '39px';
+            img.style.width = '42px';
+            img.style.marginRight = '0px';
+        
+            // Insert the image at the beginning of the dfTitlebar div
+            dfTitlebar.insertBefore(img, dfTitlebar.firstChild);
+        
+            // Adjust the style of the dfTitlebar div
+            dfTitlebar.style.display = 'flex';
+            dfTitlebar.style.alignItems = 'center';
+        });
+      });
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <script src="./script.js"></script>

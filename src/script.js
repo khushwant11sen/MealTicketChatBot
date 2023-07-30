@@ -188,10 +188,10 @@ function create_menu_list(){
       speechInputTag.click()
       if(speechInputTag.checked) {
         flag=true;
-        console.log("checked");
+        // console.log("checked");
       }else{
         flag=false;
-        console.log("unchecked");
+        // console.log("unchecked");
       }
     })
 

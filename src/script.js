@@ -16,13 +16,6 @@ document.addEventListener('df-response-received', function(event) {
     }
 });
 
-function displayMenu() {
-  const dropdownContent = document.getElementById('dropdown-content');
-  dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
-  console.log(dropdownContent.style.display)
-}
-
-
 function message_clicked() {
   message_area = document.querySelector('df-messenger').shadowRoot.querySelector('df-messenger-chat').shadowRoot.querySelector('df-message-list').shadowRoot.getElementById('messageList')
   message_area.click()
@@ -30,6 +23,29 @@ function message_clicked() {
   mic_btn.style.visibility = "visible"
   console.log("opened df chat")
 }
+
+
+  function generateSessionId() {
+    const chars = '0123456789';
+    let sessionId = '';
+    const sessionIdLength = 10; // You can adjust the length of the session ID as needed
+    for (let i = 0; i < sessionIdLength; i++) {
+      const randomIndex = Math.floor(Math.random() * chars.length);
+      sessionId += chars.charAt(randomIndex);
+    }
+    return sessionId;
+  }
+
+function refreshMessageList() {
+    // Get the df-messenger element
+   const dfMessenger =  document.querySelector('df-messenger');
+   const sendIcon = dfMessenger.shadowRoot.querySelector('df-messenger-chat').shadowRoot.querySelector('df-messenger-user-input').shadowRoot.getElementById('sendIcon');
+   // Access the df-message-list element inside the df-messenger-chat shadowRoot
+   const dfMessageList = dfMessenger.shadowRoot.querySelector('df-messenger-chat').shadowRoot.querySelector('df-message-list').shadowRoot.getElementById('messageList');  
+   dfMessageList.textContent = ``;
+   dfMessenger.setAttribute('session-id','dfMessenger-'+ generateSessionId());
+   dfMessenger.renderCustomText("Do you want to 'quit' or 'restart'? ");
+ }
 
 // Function to start speaking on page load
 function startSpeakingOnLoad() {
@@ -53,7 +69,6 @@ function startSpeakingOnLoad() {
         console.log("not done");
       }
       create_menu_list();
-      speakResponse('');
     });
   }
   
@@ -78,7 +93,7 @@ async function handleAudio() {
             // Pass the user's spoken text to Dialogflow Messenger for processing
             $("#mic_btn").removeClass("red");
             $("#mic_btn").addClass("black");
-            sendMessage(userSpokenText,mcbtn);    
+            sendMessage(userSpokenText);    
         };
         recognition.onerror = (event) =>{
           console.log("An error occured while recoghinzing")
@@ -100,12 +115,14 @@ async function handleAudio() {
 
 // Function to send a message to Dialogflow Messenger
 function sendMessage(content) {
-    const inputField = document.querySelector('df-messenger').shadowRoot.querySelector('df-messenger-chat').shadowRoot.querySelector('df-messenger-user-input').shadowRoot.querySelector('input');
-    inputField.value = content;
-    // Simulate 'Enter' keypress to submit the user message
-    // create a button event here and create and a send button that only appears for this time
-    const enterEvent = new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, view: window, bubbles: true, cancelable: true });
-    inputField.dispatchEvent(enterEvent);
+  const inputField = document.querySelector('df-messenger').shadowRoot.querySelector('df-messenger-chat').shadowRoot.querySelector('df-messenger-user-input').shadowRoot.querySelector('input');
+  inputField.value = content;
+  // Simulate 'Enter' keypress to submit the user message
+  const enterEvent = new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, view: window, bubbles: true, cancelable: true });
+  // Simulate 'input' event to trigger input event listeners (e.g., Dialogflow Messenger)
+  const inputEvent = new Event('input', { bubbles: true, cancelable: true });
+  inputField.dispatchEvent(inputEvent);
+  inputField.dispatchEvent(enterEvent);
 }
 
 
@@ -142,49 +159,98 @@ function create_menu_list(){
   dropDownContent.id = "dropdown-content"
 
 
-   // snippet to create checkbox
-  var inputTag = document.createElement('input');
-  inputTag.id = 'checkbox';
-  inputTag.type = "checkbox";
-  inputTag.addEventListener('change',function(){
-    if(this.checked) {
-      flag=true;
-      console.log("checked");
-    }else{
-      flag=false;
-      console.log("unchecked");
-    }
-  });
+     //snippet to create a container for checkbox and voice resposne label 
+    var checkboxContainer = document.createElement('div');
+    checkboxContainer.className = 'checkbox-container';
+    checkboxContainer.style.display = 'flex';
 
-  // snippet for drop-down menu item
-  var spanTag = document.createElement('span');
-  spanTag.innerText = "Text to speech";
-  spanTag.style.color = "black";
-  spanTag.style.fontSize = "12px";
-  spanTag.style.marginLeft = "5px";
+     // snippet to create checkbox
+    var speechInputTag = document.createElement('input');
+    speechInputTag.id = 'checkbox';
+    speechInputTag.type = "checkbox";
+    speechInputTag.addEventListener('change',function(){
+      if(this.checked) {
+        flag=true;
+        console.log("checked");
+      }else{
+        flag=false;
+        console.log("unchecked");
+      }
+    });
+  
+    // snippet for drop-down menu item
+    var speechSpanTag = document.createElement('span');
+    speechSpanTag.innerText = "Voice Responses";
+    speechSpanTag.style.color = "black";
+    speechSpanTag.style.fontSize = "12px";
+    speechSpanTag.style.marginLeft = "5px";
+    speechSpanTag.addEventListener('click',function(event){
+      speechInputTag.click()
+      if(speechInputTag.checked) {
+        flag=true;
+        console.log("checked");
+      }else{
+        flag=false;
+        console.log("unchecked");
+      }
+    })
 
-  // append span and input to drop-down
-  dropDownContent.appendChild(inputTag);
-  dropDownContent.appendChild(spanTag);
+    // snippet to create a restart chat span tag
+    var restartSpanTag = document.createElement('span');
+    restartSpanTag.id = 'restart_btn'
+    restartSpanTag.className = 'restart_chat'
+    restartSpanTag.innerText = "End Chat";
+    restartSpanTag.style.color = "black";
+    restartSpanTag.style.fontSize = "12px";
+    restartSpanTag.style.marginLeft = "5px";
+    restartSpanTag.addEventListener('click',refreshMessageList);
+
+  
+    // append span and input to checkbox conatiner
+    checkboxContainer.appendChild(speechInputTag);
+    checkboxContainer.appendChild(speechSpanTag);
+
+    // append checkbox cont. and restart span to drpo-down
+    dropDownContent.appendChild(checkboxContainer);
+    dropDownContent.appendChild(restartSpanTag);
+    
   // drop-down styling
   var styleElement = document.createElement("style");
   styleElement.innerHTML = `
   svg{
-    display:none;
-  }
-  .dropdown-content{
-    display: none;
-    position: absolute;
-    padding: 10px;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    align-items: center;
-    right: 0;
-    margin-top: 2px;
-  }
-  .dropdown:hover .dropdown-content{
-    display: flex;
-  }`
+      display:none;
+    }
+    
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 10px;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      right: 0;
+      margin-top: 2px;
+      background-color: white;
+    }
+    
+    /* Styling for the dropdown items */
+    .dropdown-content span {
+      /* Align items vertically in the center */
+      padding: 5px;
+      cursor: pointer; /* Set the cursor to pointer for better user experience */
+      width: 100%; /* Take the full width of the dropdown */
+      box-sizing: border-box; /* Include padding and border in width calculation */
+      
+    }
+    
+    .dropdown-content span:hover {
+      background-color: #f1f1f1; /* Change background color on hover */
+    }
+    
+    .dropdown:hover .dropdown-content{
+      display: flex;
+    }`
 
   // append everythin to div
   newDiv.appendChild(newImage);

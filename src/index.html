@@ -74,62 +74,68 @@ a.cta_button{-moz-box-sizing:content-box !important;-webkit-box-sizing:content-b
     <script src="https://apis.google.com/js/api.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-       
-        //To minimise the height of chatbox
-         //For the button to , move it left
-        $(document).ready(function() {
-          window.addEventListener('dfMessengerLoaded', function (event) {
-          $r1 = document.querySelector("df-messenger");
-          $r2 = $r1.shadowRoot.querySelector("df-messenger-chat");
-          $r3 = $r2.shadowRoot.querySelector("df-messenger-user-input"); //for other mods
-          var sheet = new CSSStyleSheet;
-          // manage box height from here
-          sheet.replaceSync(`div.chat-wrapper { 
-            left: 20px !important; 
-            width: 650px !important; 
-            bottom:90px !important;
-            height: 480px !important;
-            transform: translateX(-5%) translateY(35%) scale(0.5, 0.5);
-            transition: transform 0.2s ease, opacity 0.2s ease-in, height 0s ease 0.2s;
-          }`);
-          $r2.shadowRoot.adoptedStyleSheets = [ sheet ];
-          });
+       $(document).ready(function() {
+        window.addEventListener('dfMessengerLoaded', function (event) {
+            $r1 = document.querySelector("df-messenger");
+            $r2 = $r1.shadowRoot.querySelector("df-messenger-chat");
+            $r3 = $r2.shadowRoot.querySelector("df-messenger-user-input"); //for other mods
+    
+            // Create a new style element
+            var style = document.createElement('style');
+            style.textContent = `
+                div.chat-wrapper { 
+                    left: 20px !important; 
+                    width: 650px !important; 
+                    bottom:90px !important;
+                    height: 480px !important;
+                    transform: translateX(-5%) translateY(35%) scale(0.5, 0.5);
+                    transition: transform 0.1s ease, opacity 0.1s ease-in, height 0s ease 0.2s;
+                }
+            `;
+            // Append the style element to the shadow root
+            $r2.shadowRoot.appendChild(style);
         });
-        //For the button to , move it left
-        $(document).ready(function() {
-             window.addEventListener('dfMessengerLoaded', function (event) {
-             $r1 = document.querySelector("df-messenger");
-             var sheet = new CSSStyleSheet;
-             // manage box height from here
-             sheet.replaceSync(`div.df-messenger-wrapper { 
-                left: 5% !important; 
-                right: auto !important; 
-             }`);
-             $r1.shadowRoot.adoptedStyleSheets = [ sheet ];
-          });
+    });
+    
+    $(document).ready(function() {
+        window.addEventListener('dfMessengerLoaded', function (event) {
+            $r1 = document.querySelector("df-messenger");
+    
+            // Create a new style element
+            var style = document.createElement('style');
+            style.textContent = `
+                div.df-messenger-wrapper { 
+                    left: 5% !important; 
+                    right: auto !important; 
+                }
+            `;
+            // Append the style element to the shadow root
+            $r1.shadowRoot.appendChild(style);
         });
-        $(document).ready(function() {
-          window.addEventListener('dfMessengerLoaded', function (event) {
+    });
+    
+    $(document).ready(function() {
+        window.addEventListener('dfMessengerLoaded', function (event) {
             var r1 = document.querySelector("df-messenger");
             var r2 = r1.shadowRoot.querySelector("df-messenger-chat");
             var r3 = r2.shadowRoot.querySelector("df-messenger-titlebar");
             var dfTitlebar = r3.shadowRoot.querySelector("#dfTitlebar");
-        
+    
             // Create a new image element
             var img = document.createElement("img");
             img.src = './meal-logo.png';
             img.style.height = '39px';
             img.style.width = '42px';
             img.style.marginRight = '0px';
-        
+    
             // Insert the image at the beginning of the dfTitlebar div
             dfTitlebar.insertBefore(img, dfTitlebar.firstChild);
-        
+    
             // Adjust the style of the dfTitlebar div
             dfTitlebar.style.display = 'flex';
             dfTitlebar.style.alignItems = 'center';
         });
-      });
+    });
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <script src="./script.js"></script>

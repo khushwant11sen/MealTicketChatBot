@@ -177,7 +177,7 @@ function create_menu_list(){
         console.log("unchecked");
       }
     });
-  
+    speechInputTag.click();
     // snippet for drop-down menu item
     var speechSpanTag = document.createElement('span');
     speechSpanTag.innerText = "Voice Responses";

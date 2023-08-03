@@ -76,7 +76,27 @@ function startSpeakingOnLoad() {
     // Start speaking when the page has finished loading
     startSpeakingOnLoad();
   });
-  
+
+
+// function to detecct user browser
+function detectSpeechRecognition() {
+    try {
+        if ('SpeechRecognition' in window) {
+          console.log("user got safari/firefox");
+          return new window.SpeechRecognition(); // For browsers supporting the standard SpeechRecognition API
+        } else if ('webkitSpeechRecognition' in window) {
+          console.log("user got chrome/edge");
+          return new window.webkitSpeechRecognition(); // For Chrome and Edge, use webkitSpeechRecognition
+        } else {
+          console.log("STT not ssupported by browser");
+          throw new Error('Speech recognition not supported in this browser.');
+        }
+    } catch (error) {
+        console.error('Error with speech recognition:', error);
+        $("#mic_btn").removeClass("red");
+        $("#mic_btn").addClass("black");
+    }
+}
 
 async function handleAudio() {
     mcbtn = document.querySelector('#mic_btn');
@@ -84,28 +104,30 @@ async function handleAudio() {
     $("#mic_btn").addClass("red");
     // Perform audio input - convert user's spoken query to text using Web Speech API (SpeechRecognition)
     try {
-        const recognition = new window.webkitSpeechRecognition(); // For Chrome and Edge, use SpeechRecognition instead of webkitSpeechRecognition
-        recognition.continuous = false;
-        recognition.interimResults = false;
-        recognition.onresult = (event) => {
-            const userSpokenText = event.results[0][0].transcript;
-            console.log('User Spoken Text:', userSpokenText);
-            // Pass the user's spoken text to Dialogflow Messenger for processing
-            $("#mic_btn").removeClass("red");
-            $("#mic_btn").addClass("black");
-            sendMessage(userSpokenText);    
-        };
-        recognition.onerror = (event) =>{
-          console.log("An error occured while recoghinzing")
-            $("#mic_btn").removeClass("red");
-            $("#mic_btn").addClass("black");
-        }
-        recognition.onnomatch  = (event) =>{
-          console.log("No match found while recoghinzing")
-            $("#mic_btn").removeClass("red");
-            $("#mic_btn").addClass("black");
-        }
-        recognition.start();
+        const recognition = detectSpeechRecognition();
+        if (recognition) {
+          recognition.continuous = false;
+          recognition.interimResults = false;
+          recognition.onresult = (event) => {
+              const userSpokenText = event.results[0][0].transcript;
+              console.log('User Spoken Text:', userSpokenText);
+              // Pass the user's spoken text to Dialogflow Messenger for processing
+              $("#mic_btn").removeClass("red");
+              $("#mic_btn").addClass("black");
+              sendMessage(userSpokenText);
+          };
+          recognition.onerror = (event) => {
+              console.log("An error occurred while recognizing");
+              $("#mic_btn").removeClass("red");
+              $("#mic_btn").addClass("black");
+          };
+          recognition.onnomatch = (event) => {
+              console.log("No match found while recognizing");
+              $("#mic_btn").removeClass("red");
+              $("#mic_btn").addClass("black");
+          };
+          recognition.start();
+      }
     } catch (error) {
         $("#mic_btn").removeClass("red");
         $("#mic_btn").addClass("black");

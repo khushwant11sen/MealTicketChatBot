@@ -10,6 +10,8 @@
   <title>Foodservice Distribution Management Software | Meal Ticket</title>
   <link rel="shortcut icon" href="https://www.mealticket.com/hubfs/images/logos/favicon-16x16.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css">
     <style>
         df-messenger {
             --df-messenger-bot-message: #ff9001;
@@ -22,9 +24,9 @@
         }
        #mic_btn{
             position: fixed;
-            left: 605px !important;
+            left: 590px !important;
             display: block;
-            bottom: 106px !important;
+            bottom: 32px !important;
             z-index: 999;
             color: rgb(0, 0, 0);
             visibility: hidden;
@@ -84,12 +86,13 @@ a.cta_button{-moz-box-sizing:content-box !important;-webkit-box-sizing:content-b
             var style = document.createElement('style');
             style.textContent = `
                 div.chat-wrapper { 
-                    left: 20px !important; 
+                    left: 5px !important; 
                     width: 650px !important; 
-                    bottom:90px !important;
+                    bottom:15px !important;
                     height: 480px !important;
                     transform: translateX(-5%) translateY(35%) scale(0.5, 0.5);
                     transition: transform 0.1s ease, opacity 0.1s ease-in, height 0s ease 0.2s;
+                    
                 }
             `;
             // Append the style element to the shadow root
@@ -105,8 +108,11 @@ a.cta_button{-moz-box-sizing:content-box !important;-webkit-box-sizing:content-b
             var style = document.createElement('style');
             style.textContent = `
                 div.df-messenger-wrapper { 
-                    left: 5% !important; 
-                    right: auto !important; 
+                  left: 66px !important; 
+                  right: auto !important; 
+                }
+                #widgetIcon{
+                  z-index : -1;
                 }
             `;
             // Append the style element to the shadow root
@@ -115,27 +121,41 @@ a.cta_button{-moz-box-sizing:content-box !important;-webkit-box-sizing:content-b
     });
     
     $(document).ready(function() {
-        window.addEventListener('dfMessengerLoaded', function (event) {
-            var r1 = document.querySelector("df-messenger");
-            var r2 = r1.shadowRoot.querySelector("df-messenger-chat");
-            var r3 = r2.shadowRoot.querySelector("df-messenger-titlebar");
-            var dfTitlebar = r3.shadowRoot.querySelector("#dfTitlebar");
-    
-            // Create a new image element
-            var img = document.createElement("img");
-            img.src = './meal-logo.png';
-            img.style.height = '39px';
-            img.style.width = '42px';
-            img.style.marginRight = '0px';
-    
-            // Insert the image at the beginning of the dfTitlebar div
-            dfTitlebar.insertBefore(img, dfTitlebar.firstChild);
-    
-            // Adjust the style of the dfTitlebar div
-            dfTitlebar.style.display = 'flex';
-            dfTitlebar.style.alignItems = 'center';
-        });
-    });
+      window.addEventListener('dfMessengerLoaded', function (event) {
+          var r1 = document.querySelector("df-messenger");
+          var r2 = r1.shadowRoot.querySelector("df-messenger-chat");
+          var r3 = r2.shadowRoot.querySelector("df-messenger-titlebar");
+          var dfTitlebar = r3.shadowRoot.querySelector("#dfTitlebar");
+  
+          // Create a new image element
+          var img = document.createElement("img");
+          img.src = './meal-logo.png';
+          img.style.height = '39px';
+          img.style.width = '42px';
+          img.style.marginRight = '0px';
+  
+          // Insert the image at the beginning of the dfTitlebar div
+          dfTitlebar.insertBefore(img, dfTitlebar.firstChild);
+  
+          // Adjust the style of the dfTitlebar div
+          dfTitlebar.style.display = 'flex';
+          dfTitlebar.style.alignItems = 'center';
+          // Attach click event to the minimize icon
+        
+          // Create a new style element
+          var style = document.createElement('style');
+          style.textContent = `
+              @media screen and (min-width: 501px) {
+                  #minimizeIcon {
+                      visibility: visible !important;
+                  }
+              }
+          `;
+  
+          // Insert the style at the beginning of the shadow root
+          r3.shadowRoot.insertBefore(style, r3.shadowRoot.firstChild);
+      });
+  });
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <script src="./script.js"></script>

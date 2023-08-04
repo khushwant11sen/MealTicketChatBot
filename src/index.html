@@ -22,22 +22,27 @@
             --df-messenger-user-message: #ee4b2b;
             --df-messenger-minimized-chat-close-icon-color: #ffffff;
         }
-       #mic_btn{
-            position: fixed;
-            left: 590px !important;
-            display: block;
-            bottom: 32px !important;
-            z-index: 999;
-            color: rgb(0, 0, 0);
-            visibility: hidden;
-            display: block;
-        }
         .red{
            color: red !important;
+           filter: hue-rotate(-90deg);
         }
         .black{
            color: black !important;
+           filter: hue-rotate(0deg);
         }
+        #mic_btn{
+          position: fixed;
+          left: 590px !important;
+          display: block;
+          bottom: 32px !important;
+          z-index: 999;
+          color: rgb(0, 0, 0);
+          visibility: hidden;
+          display: block;
+      }
+      svg {
+        color : "red";
+      }
       </style>
   
   <meta property="og:description" content="Maximize your profits with a suite of solutions designed to deliver better data, direction, insights, and opportunities for foodservice distributors.">
@@ -71,7 +76,7 @@ a.cta_button{-moz-box-sizing:content-box !important;-webkit-box-sizing:content-b
     language-code="en"
     chat-icon = "meal-logo.png"
     ></df-messenger>
-    <i id="mic_btn" onclick="handleAudio()" style="font-size:20px;"  class="fa fa-microphone"></i>
+    <!-- <i id="mic_btn" onclick="handleAudio()" style="font-size:20px;"  class="fa fa-microphone"></i> -->
     
     <script src="https://apis.google.com/js/api.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -86,10 +91,10 @@ a.cta_button{-moz-box-sizing:content-box !important;-webkit-box-sizing:content-b
             var style = document.createElement('style');
             style.textContent = `
                 div.chat-wrapper { 
-                    left: 5px !important; 
+                    left: 2px !important; 
                     width: 650px !important; 
                     bottom:15px !important;
-                    height: 480px !important;
+                    height: 550px !important;
                     transform: translateX(-5%) translateY(35%) scale(0.5, 0.5);
                     transition: transform 0.1s ease, opacity 0.1s ease-in, height 0s ease 0.2s;
                     
@@ -99,7 +104,41 @@ a.cta_button{-moz-box-sizing:content-box !important;-webkit-box-sizing:content-b
             $r2.shadowRoot.appendChild(style);
         });
     });
-    
+    $(document).ready(function() {
+      window.addEventListener('dfMessengerLoaded', function (event) {
+          var r1 = document.querySelector("df-messenger").shadowRoot.querySelector("df-messenger-chat").shadowRoot.querySelector("df-messenger-user-input");
+          var sent_btn = r1.shadowRoot.getElementById('sendIcon');
+          var inputContainer = r1.shadowRoot.querySelector(".input-box-wrapper");
+          console.log(inputContainer);
+          // Create a new microphone icon element
+          var microphoneIcon = document.createElement("img");
+          microphoneIcon.id = 'mic_btn';
+          microphoneIcon.style.height = '20px';
+          microphoneIcon.style.width = '20px';
+          microphoneIcon.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mic" width="20" height="20"><path d="M12 1a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V4a3 3 0 0 1 3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>';
+          microphoneIcon.onclick = function() {
+            var blackMic = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mic" width="20" height="20"><path d="M12 1a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V4a3 3 0 0 1 3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>';
+            var redMic = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="red" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mic" width="20" height="20"><path d="M12 1a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V4a3 3 0 0 1 3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>';
+        
+            if (this.src == blackMic) {
+                this.src = redMic;
+                handleAudio(); 
+                setTimeout(() => {
+                    this.src = blackMic;
+                }, 7000); // Change back to black after 7 seconds
+            } else {
+                this.src = blackMic;
+            }
+        };
+          // Insert the microphone icon before the send icon in the input container
+          inputContainer.insertBefore(microphoneIcon, sent_btn);
+          console.log("mic inserted");
+          // Adjust the style of the input container to align items center
+          inputContainer.style.display = 'flex';
+          inputContainer.style.alignItems = 'center';
+        });
+      });
+  
     $(document).ready(function() {
         window.addEventListener('dfMessengerLoaded', function (event) {
             $r1 = document.querySelector("df-messenger");

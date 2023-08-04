@@ -157,13 +157,13 @@ function create_menu_list(){
   var newDiv = document.createElement('div');
   newDiv.id = 'dropdown';
   newDiv.className= 'dropdown';
-  newDiv.style.position = 'relative';
-  newDiv.style.display = 'inline-block';
-  newDiv.style.height = 'fit-content';
-  newDiv.style.width = 'fit-content';
-  newDiv.style.right = '10px';
+  newDiv.style.position = 'fixed';
+ // newDiv.style.display = 'inline-block';
+  //newDiv.style.height = 'fit-content';
+  //newDiv.style.width = 'fit-content';
+  newDiv.style.right = '45px';
   newDiv.style.padding = '2px';
-  newDiv.style.top = '3px';
+  newDiv.style.top = '8px';
 
   // snippet to create mic image
   var newImage = document.createElement("img");
@@ -240,9 +240,6 @@ function create_menu_list(){
   // drop-down styling
   var styleElement = document.createElement("style");
   styleElement.innerHTML = `
-  svg{
-      display:none;
-    }
     
     .dropdown-content {
       display: none;

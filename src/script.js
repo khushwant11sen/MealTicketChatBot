@@ -238,8 +238,6 @@ function setAvatar(){
         }
     }
   `;
-  const minimizeIcon = document.querySelector('df-messenger').shadowRoot.querySelector("df-messenger-chat").shadowRoot.querySelector("df-messenger-titlebar").shadowRoot.getElementById("minimizeIcon");
-  minimizeIcon.data_label = 'minimize';
   // Insert the style at the beginning of the shadow root
   r3.shadowRoot.appendChild(style);
 }

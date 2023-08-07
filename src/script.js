@@ -20,8 +20,9 @@ function create_menu_list(){
   var newImage = document.createElement("img");
   newImage.id = "tripple-dot-icon";
   newImage.style.right = "10px";
-  newImage.src = "./vertical_dots.png";
-  newImage.style.height = "30px";
+  newImage.src = "svg_vertical_icon.svg";
+  newImage.style.height = "24px";
+  newImage.style.marginTop = '3px';
   newImage.style.filter = "invert(1)";
   newImage.style.zIndex = "99999";
   newImage.style.top = "10px";
@@ -186,7 +187,7 @@ function setRefreshIcon(){
   const titleBar = document.querySelector("df-messenger").shadowRoot.querySelector('df-messenger-chat').shadowRoot.querySelector('df-messenger-titlebar').shadowRoot.querySelector('.title-wrapper');
   var refresh_icon = document.createElement('img');
   refresh_icon.id = 'refresh_btn';
-  refresh_icon.src = 'refresh_icon.png';
+  refresh_icon.src = 'svg_refresh_icon.svg';
   refresh_icon.style.height = "25px";
   refresh_icon.style.width = "25px";
   refresh_icon.style.marginRight = '7px';

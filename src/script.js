@@ -12,7 +12,7 @@ function create_menu_list(){
   newDiv.id = 'dropdown';
   newDiv.className= 'dropdown';
   newDiv.style.position = 'fixed';
-  newDiv.style.right = '62px';
+  newDiv.style.right = '64px';
   newDiv.style.padding = '2px';
   newDiv.style.top = '8px';
 
@@ -21,8 +21,8 @@ function create_menu_list(){
   newImage.id = "tripple-dot-icon";
   newImage.style.right = "10px";
   newImage.src = "svg_vertical_icon.svg";
-  newImage.style.height = "24px";
-  newImage.style.marginTop = '3px';
+  newImage.style.height = "22px";
+  newImage.style.marginTop = '4px';
   newImage.style.filter = "invert(1)";
   newImage.style.zIndex = "99999";
   newImage.style.top = "10px";

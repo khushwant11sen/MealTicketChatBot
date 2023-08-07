@@ -81,7 +81,7 @@ a.cta_button{-moz-box-sizing:content-box !important;-webkit-box-sizing:content-b
     <script src="https://apis.google.com/js/api.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-       $(document).ready(function() {
+      $(document).ready(function() {
         window.addEventListener('dfMessengerLoaded', function (event) {
             $r1 = document.querySelector("df-messenger");
             $r2 = $r1.shadowRoot.querySelector("df-messenger-chat");
@@ -98,13 +98,63 @@ a.cta_button{-moz-box-sizing:content-box !important;-webkit-box-sizing:content-b
                     transform: translateX(-5%) translateY(35%) scale(0.5, 0.5);
                     transition: transform 0.1s ease, opacity 0.1s ease-in, height 0s ease 0.2s;
                     
-                }
-                @media only screen and (min-width: 480px) {
-                  width: 350px !important; 
                 }`;
             // Append the style element to the shadow root
             $r2.shadowRoot.appendChild(style);
         });
+    });
+    //To make the input box responsive
+    $(document).ready(function() {
+      window.addEventListener('dfMessengerLoaded', function (event) {
+          var r1 = document.querySelector("df-messenger").shadowRoot.querySelector("df-messenger-chat").shadowRoot.querySelector("df-messenger-user-input");
+          // Create a new style element
+          var style = document.createElement('style');
+          style.textContent = `
+          @media only screen and (max-width: 481px) {
+              .input-container {
+                  width: 60%;
+                  height:50px 
+              }
+          }`;
+          // Append the style element to the shadow root of r1
+          r1.shadowRoot.appendChild(style);
+      });
+    });
+    //To make the message box responsive
+    $(document).ready(function() {
+      window.addEventListener('dfMessengerLoaded', function (event) {
+          var r1 = document.querySelector("df-messenger");
+          var r2 = r1.shadowRoot.querySelector("df-messenger-chat");
+          var r3 = r2.shadowRoot.querySelector("df-message-list");
+          var style = document.createElement('style');
+          style.textContent = `
+          @media only screen and (max-width: 481px) {
+              .message-list-wrapper {
+                  width: 60%;
+              }
+          }`;
+          // Append the style element to the shadow root of r1
+          r3.shadowRoot.appendChild(style);
+      });
+    });
+    //To make the bot header responsive
+    $(document).ready(function() {
+      window.addEventListener('dfMessengerLoaded', function (event) {
+          var r1 = document.querySelector("df-messenger");
+          var r2 = r1.shadowRoot.querySelector("df-messenger-chat");
+          var r3 = r2.shadowRoot.querySelector("df-messenger-titlebar");
+          var style = document.createElement('style');
+          style.textContent = `
+          @media only screen and (max-width: 481px) {
+              .title-wrapper {
+                  width: 60%;
+                  right: 0px;
+                  padding-left: 0px;
+              }
+          }`;
+          // Append the style element to the shadow root of r1
+          r3.shadowRoot.appendChild(style);
+      });
     });
     $(document).ready(function() {
       window.addEventListener('dfMessengerLoaded', function (event) {
@@ -1442,6 +1492,3 @@ s.parentNode.insertBefore(b, s);})();
 
 </body>
 </html>
-
-
-

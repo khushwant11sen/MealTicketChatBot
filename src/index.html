@@ -67,8 +67,8 @@ a.cta_button{-moz-box-sizing:content-box !important;-webkit-box-sizing:content-b
 <link rel="stylesheet" href="https://www.mealticket.com/hs-fs/hub/19576602/hub_generated/module_assets/47371435141/1621329671460/module_47371435141_Home_Notice.min.css">
 <link rel="stylesheet" href="https://www.mealticket.com/hs-fs/hub/19576602/hub_generated/module_assets/47390000185/1621611235851/module_47390000185_Footer.min.css">
   <!-- DialogFlow script -->
+  
     <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
-
     <df-messenger
     intent="WELCOME"
     chat-title="Meal ticket"
@@ -76,181 +76,11 @@ a.cta_button{-moz-box-sizing:content-box !important;-webkit-box-sizing:content-b
     language-code="en"
     chat-icon = "meal-logo.png"
     ></df-messenger>
-    <!-- <i id="mic_btn" onclick="handleAudio()" style="font-size:20px;"  class="fa fa-microphone"></i> -->
-    
     <script src="https://apis.google.com/js/api.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-      $(document).ready(function() {
-        window.addEventListener('dfMessengerLoaded', function (event) {
-            $r1 = document.querySelector("df-messenger");
-            $r2 = $r1.shadowRoot.querySelector("df-messenger-chat");
-            $r3 = $r2.shadowRoot.querySelector("df-messenger-user-input"); //for other mods
-    
-            // Create a new style element
-            var style = document.createElement('style');
-            style.textContent = `
-                div.chat-wrapper { 
-                    left: 2px !important; 
-                    width: 650px !important; 
-                    bottom:15px !important;
-                    height: 550px !important;
-                    transform: translateX(-5%) translateY(35%) scale(0.5, 0.5);
-                    transition: transform 0.1s ease, opacity 0.1s ease-in, height 0s ease 0.2s;
-                    
-                }`;
-            // Append the style element to the shadow root
-            $r2.shadowRoot.appendChild(style);
-        });
-    });
-    //To make the input box responsive
-    $(document).ready(function() {
-      window.addEventListener('dfMessengerLoaded', function (event) {
-          var r1 = document.querySelector("df-messenger").shadowRoot.querySelector("df-messenger-chat").shadowRoot.querySelector("df-messenger-user-input");
-          // Create a new style element
-          var style = document.createElement('style');
-          style.textContent = `
-          @media only screen and (max-width: 481px) {
-              .input-container {
-                  width: 60%;
-                  height:50px 
-              }
-          }`;
-          // Append the style element to the shadow root of r1
-          r1.shadowRoot.appendChild(style);
-      });
-    });
-    //To make the message box responsive
-    $(document).ready(function() {
-      window.addEventListener('dfMessengerLoaded', function (event) {
-          var r1 = document.querySelector("df-messenger");
-          var r2 = r1.shadowRoot.querySelector("df-messenger-chat");
-          var r3 = r2.shadowRoot.querySelector("df-message-list");
-          var style = document.createElement('style');
-          style.textContent = `
-          @media only screen and (max-width: 481px) {
-              .message-list-wrapper {
-                  width: 60%;
-              }
-          }`;
-          // Append the style element to the shadow root of r1
-          r3.shadowRoot.appendChild(style);
-      });
-    });
-    //To make the bot header responsive
-    $(document).ready(function() {
-      window.addEventListener('dfMessengerLoaded', function (event) {
-          var r1 = document.querySelector("df-messenger");
-          var r2 = r1.shadowRoot.querySelector("df-messenger-chat");
-          var r3 = r2.shadowRoot.querySelector("df-messenger-titlebar");
-          var style = document.createElement('style');
-          style.textContent = `
-          @media only screen and (max-width: 481px) {
-              .title-wrapper {
-                  width: 60%;
-                  right: 0px;
-                  padding-left: 0px;
-              }
-          }`;
-          // Append the style element to the shadow root of r1
-          r3.shadowRoot.appendChild(style);
-      });
-    });
-    $(document).ready(function() {
-      window.addEventListener('dfMessengerLoaded', function (event) {
-          var r1 = document.querySelector("df-messenger").shadowRoot.querySelector("df-messenger-chat").shadowRoot.querySelector("df-messenger-user-input");
-          var sent_btn = r1.shadowRoot.getElementById('sendIcon');
-          var inputContainer = r1.shadowRoot.querySelector(".input-box-wrapper");
-          console.log(inputContainer);
-          // Create a new microphone icon element
-          var microphoneIcon = document.createElement("img");
-          microphoneIcon.id = 'mic_btn';
-          microphoneIcon.style.height = '20px';
-          microphoneIcon.style.width = '20px';
-          microphoneIcon.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mic" width="20" height="20"><path d="M12 1a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V4a3 3 0 0 1 3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>';
-          microphoneIcon.onclick = function() {
-            var blackMic = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mic" width="20" height="20"><path d="M12 1a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V4a3 3 0 0 1 3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>';
-            var redMic = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="red" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mic" width="20" height="20"><path d="M12 1a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V4a3 3 0 0 1 3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>';
-        
-            if (this.src == blackMic) {
-                this.src = redMic;
-                handleAudio(); 
-                setTimeout(() => {
-                    this.src = blackMic;
-                }, 7000); // Change back to black after 7 seconds
-            } else {
-                this.src = blackMic;
-            }
-        };
-          // Insert the microphone icon before the send icon in the input container
-          inputContainer.insertBefore(microphoneIcon, sent_btn);
-          console.log("mic inserted");
-          // Adjust the style of the input container to align items center
-          inputContainer.style.display = 'flex';
-          inputContainer.style.alignItems = 'center';
-        });
-      });
-  
-    $(document).ready(function() {
-        window.addEventListener('dfMessengerLoaded', function (event) {
-            $r1 = document.querySelector("df-messenger");
-    
-            // Create a new style element
-            var style = document.createElement('style');
-            style.textContent = `
-                div.df-messenger-wrapper { 
-                  left: 66px !important; 
-                  right: auto !important; 
-                }
-                #widgetIcon{
-                  z-index : -1;
-                }
-            `;
-            // Append the style element to the shadow root
-            $r1.shadowRoot.appendChild(style);
-        });
-    });
-    
-    $(document).ready(function() {
-      window.addEventListener('dfMessengerLoaded', function (event) {
-          var r1 = document.querySelector("df-messenger");
-          var r2 = r1.shadowRoot.querySelector("df-messenger-chat");
-          var r3 = r2.shadowRoot.querySelector("df-messenger-titlebar");
-          var dfTitlebar = r3.shadowRoot.querySelector("#dfTitlebar");
-  
-          // Create a new image element
-          var img = document.createElement("img");
-          img.src = './meal-logo.png';
-          img.style.height = '39px';
-          img.style.width = '42px';
-          img.style.marginRight = '0px';
-  
-          // Insert the image at the beginning of the dfTitlebar div
-          dfTitlebar.insertBefore(img, dfTitlebar.firstChild);
-  
-          // Adjust the style of the dfTitlebar div
-          dfTitlebar.style.display = 'flex';
-          dfTitlebar.style.alignItems = 'center';
-          // Attach click event to the minimize icon
-        
-          // Create a new style element
-          var style = document.createElement('style');
-          style.textContent = `
-              @media screen and (min-width: 501px) {
-                  #minimizeIcon {
-                      visibility: visible !important;
-                  }
-              }
-          `;
-  
-          // Insert the style at the beginning of the shadow root
-          r3.shadowRoot.insertBefore(style, r3.shadowRoot.firstChild);
-      });
-  });
-    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <script src="./script.js"></script>
-
+  
 <!-- DF Scripts ends -->
 
 
@@ -1492,3 +1322,6 @@ s.parentNode.insertBefore(b, s);})();
 
 </body>
 </html>
+
+
+

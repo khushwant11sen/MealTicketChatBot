@@ -99,6 +99,20 @@ a.cta_button{-moz-box-sizing:content-box !important;-webkit-box-sizing:content-b
                     transition: transform 0.1s ease, opacity 0.1s ease-in, height 0s ease 0.2s;
                     
                 }
+                 style.textContent = `
+                div.chat-wrapper { 
+                    left: 2px !important; 
+                    width: 650px !important; 
+                    bottom:15px !important;
+                    height: 550px !important;
+                    transform: translateX(-5%) translateY(35%) scale(0.5, 0.5);
+                    transition: transform 0.1s ease, opacity 0.1s ease-in, height 0s ease 0.2s;
+                    
+                }
+                @media only screen and (max-width: 480px) {
+                   width: 350px !important; 
+                }
+            `;
             `;
             // Append the style element to the shadow root
             $r2.shadowRoot.appendChild(style);

@@ -12,7 +12,7 @@ function create_menu_list(){
   newDiv.id = 'dropdown';
   newDiv.className= 'dropdown';
   newDiv.style.position = 'fixed';
-  newDiv.style.right = '64px';
+  newDiv.style.right = '36px';
   newDiv.style.padding = '2px';
   newDiv.style.top = '8px';
 
@@ -221,23 +221,81 @@ function setAvatar(){
   // Create a new style element
   var style = document.createElement('style');
   style.textContent = `
-    .title-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content : unset;
+  .title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  #dfTitlebar img {
+    height: 39px;
+    width: 42px;
+    margin-right: 0px;
+  }
+  
+  #minimizeIcon {
+    fill: white;
+    fill: var(--df-messenger-button-titlebar-font-color);
+    width: 24px;
+    height: 24px;
+    margin-left: 392px;
+    transform: rotate(180deg); /* Updated the rotation to 180 degrees */
+  }
+  
+  #dropdown {
+    position: fixed;
+    right: 36px;
+    padding: 2px;
+    top: 8px;
+    display: flex;
+    align-items: center;
+  }
+  
+  #refresh_btn {
+    height: 25px;
+    width: 25px;
+    margin-right: 7px;
+    filter: invert(1);
+  }
+  
+  /* Adjustments for smaller screens */
+  @media screen and (max-width: 768px) {
+    #dfTitlebar img {
+      min-width: 24px;
+      min-height: 24px;
     }
+  
     #minimizeIcon {
-      fill: white;
-      fill: var(--df-messenger-button-titlebar-font-color);
-      margin-left: 445px;
-      margin-right: 6px;
-      transform: rotate(180deg); /* Updated the rotation to 180 degrees */
+      width: 24px;
+      height: 24px;
     }
-    @media screen and (min-width: 501px) {
+  
+    #refresh_btn {
+      height: 20px;
+      width: 20px;
+    }
+  }
+  @media screen and (min-width: 501px) {
         #minimizeIcon {
-            visibility: visible !important;
+          visibility: visible !important;
         }
-    }
+  }
+  
+  /* Adjust the margin for medium-sized screens */
+
+  /* Adjust the margin for small screens */
+  @media screen and (max-width: 768px) {
+    #minimizeIcon {
+      margin-left: 391px; /* Adjust as needed */
+   } 
+  }
+
+  /* Adjust the margin for extra-small screens */
+  @media screen and (max-width: 576px) {
+    #minimizeIcon {
+       margin-left: 50px; /* Adjust as needed */
+   }
+  }
   `;
   // Insert the style at the beginning of the shadow root
   r3.shadowRoot.appendChild(style);
@@ -254,14 +312,22 @@ function setSizePosition(){
   var style = document.createElement('style');
   style.textContent = `
       div.chat-wrapper { 
-          left: 2px !important; 
-          width: 652px !important; 
-          bottom:15px !important;
-          height: 550px !important;
+          left: 2px ; 
+          width: 652px ; 
+          bottom:15px ;
+          height: 550px ;
           transform: translateX(-5%) translateY(35%) scale(0.5, 0.5);
           transition: transform 0.1s ease, opacity 0.1s ease-in, height 0s ease 0.2s;
           
       }
+    @media only screen and (max-width: 741px) {
+      div.chat-wrapper {
+        width: 100% !important;
+        height: 90%  !important;
+        bottom:0 !important;
+        left: 0 !important; 
+        right: 0 !important; 
+    } 
   `;
   // Append the style element to the shadow root
   $r2.shadowRoot.appendChild(style);
@@ -272,16 +338,9 @@ function setSizePosition(){
 function responsive_input_box(){
   var r1 = document.querySelector("df-messenger").shadowRoot.querySelector("df-messenger-chat").shadowRoot.querySelector("df-messenger-user-input");
   // Create a new style element
-  var style = document.createElement('style');
-  style.textContent = `
-  @media only screen and (max-width: 481px) {
-      .input-container {
-          width: 60%;
-          height:50px 
-      }
-  }`;
-  // Append the style element to the shadow root of r1
-  r1.shadowRoot.appendChild(style);
+  if(window.innerWidth <= 741){
+    r1.style.width = '100%';
+  }
 }
 
 
@@ -290,15 +349,9 @@ function responsive_message_box(){
   var r1 = document.querySelector("df-messenger");
   var r2 = r1.shadowRoot.querySelector("df-messenger-chat");
   var r3 = r2.shadowRoot.querySelector("df-message-list");
-  var style = document.createElement('style');
-  style.textContent = `
-  @media only screen and (max-width: 481px) {
-      .message-list-wrapper {
-          width: 60%;
-      }
-  }`;
-  // Append the style element to the shadow root of r1
-  r3.shadowRoot.appendChild(style);
+  if(window.innerWidth <= 741){
+    r3.style.width = '100%';
+  }
 }
 
 // function to make bot header responsive
@@ -306,17 +359,9 @@ function responsive_Bot_header(){
   var r1 = document.querySelector("df-messenger");
   var r2 = r1.shadowRoot.querySelector("df-messenger-chat");
   var r3 = r2.shadowRoot.querySelector("df-messenger-titlebar");
-  var style = document.createElement('style');
-  style.textContent = `
-  @media only screen and (max-width: 481px) {
-      .title-wrapper {
-          width: 60%;
-          right: 0px;
-          padding-left: 0px;
-      }
-  }`;
-  // Append the style element to the shadow root of r1
-  r3.shadowRoot.appendChild(style);
+  if(window.innerWidth <= 741){
+     r3.style.width = '100%';
+  }
 }
 
 

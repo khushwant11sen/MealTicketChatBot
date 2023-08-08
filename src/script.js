@@ -3,16 +3,37 @@ var flag = false;
 // ------------UI CUSTOMIZATION CODE STARTS -----------------------------------
 
 // menu method created a drop-down menu for dfg messenger
-function create_menu_list(){
+function createMenuAndRefreshIcon(){
   // access title bar
   const dfMessenger =  document.querySelector('df-messenger').shadowRoot.querySelector('df-messenger-chat').shadowRoot
   const titleBar = dfMessenger.querySelector('df-messenger-titlebar').shadowRoot.querySelector('.title-wrapper');
+  // Create a container div to hold both the dropdown and refresh icon
+  var containerDiv = document.createElement('div');
+  containerDiv.style.display = 'flex';
+  containerDiv.style.alignItems = 'center';
+  // Create the refresh icon
+  var refresh_icon = document.createElement('img');
+  refresh_icon.id = 'refresh_btn';
+  refresh_icon.src = 'svg_refresh_icon.svg';
+  refresh_icon.style.height = "25px";
+  refresh_icon.style.width = "25px";
+  refresh_icon.style.marginRight = '7px';
+  refresh_icon.style.filter = "invert(1)";
+  refresh_icon.title = 'Refresh chat';
+  refresh_icon.addEventListener('click', function (event) {
+    console.log('chat-closed');
+    closeAndStartNewChat();
+  });
+
+  // Append the refresh icon to the container
+  containerDiv.appendChild(refresh_icon);
+
+  // Existing code to create the dropdown menu
+  var newDiv = document.createElement('div');
   //snippet to create div 
   var newDiv = document.createElement('div');
   newDiv.id = 'dropdown';
   newDiv.className= 'dropdown';
-  newDiv.style.position = 'fixed';
-  newDiv.style.right = '36px';
   newDiv.style.padding = '2px';
   newDiv.style.top = '8px';
 
@@ -107,8 +128,13 @@ function create_menu_list(){
   newDiv.appendChild(newImage);
   newDiv.appendChild(dropDownContent);
   newDiv.appendChild(styleElement);
-  // add div to title bar
-  titleBar.appendChild(newDiv);
+
+  // Append the dropdown to the container
+  containerDiv.appendChild(newDiv);
+
+  // Append the container to the title bar
+  titleBar.appendChild(containerDiv);
+  
 }
 
 
@@ -182,23 +208,23 @@ function closeAndStartNewChat() {
 }
 
 
-// fucntion to refresh df-messenger chat
-function setRefreshIcon(){
-  const titleBar = document.querySelector("df-messenger").shadowRoot.querySelector('df-messenger-chat').shadowRoot.querySelector('df-messenger-titlebar').shadowRoot.querySelector('.title-wrapper');
-  var refresh_icon = document.createElement('img');
-  refresh_icon.id = 'refresh_btn';
-  refresh_icon.src = 'svg_refresh_icon.svg';
-  refresh_icon.style.height = "25px";
-  refresh_icon.style.width = "25px";
-  refresh_icon.style.marginRight = '7px';
-  refresh_icon.style.filter = "invert(1)";
-  refresh_icon.title = 'Refresh chat';
-  refresh_icon.addEventListener('click',function(event){
-    console.log('chat-closed');
-    closeAndStartNewChat();
-  });
-  titleBar.appendChild(refresh_icon);
-}
+// // fucntion to refresh df-messenger chat
+// function setRefreshIcon(){
+//   const titleBar = document.querySelector("df-messenger").shadowRoot.querySelector('df-messenger-chat').shadowRoot.querySelector('df-messenger-titlebar').shadowRoot.querySelector('.title-wrapper');
+//   var refresh_icon = document.createElement('img');
+//   refresh_icon.id = 'refresh_btn';
+//   refresh_icon.src = 'svg_refresh_icon.svg';
+//   refresh_icon.style.height = "25px";
+//   refresh_icon.style.width = "25px";
+//   refresh_icon.style.marginRight = '7px';
+//   refresh_icon.style.filter = "invert(1)";
+//   refresh_icon.title = 'Refresh chat';
+//   refresh_icon.addEventListener('click',function(event){
+//     console.log('chat-closed');
+//     closeAndStartNewChat();
+//   });
+//   titleBar.appendChild(refresh_icon);
+// }
 
 
 // function to give avatar and minimze button to df-messeneger
@@ -225,12 +251,7 @@ function setAvatar(){
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-  
-  #dfTitlebar img {
-    height: 39px;
-    width: 42px;
-    margin-right: 0px;
+    padding-left:0px;
   }
   
   #minimizeIcon {
@@ -238,26 +259,10 @@ function setAvatar(){
     fill: var(--df-messenger-button-titlebar-font-color);
     width: 24px;
     height: 24px;
-    margin-left: 392px;
+    position: fixed;
+    right: 54px;
     transform: rotate(180deg); /* Updated the rotation to 180 degrees */
   }
-  
-  #dropdown {
-    position: fixed;
-    right: 36px;
-    padding: 2px;
-    top: 8px;
-    display: flex;
-    align-items: center;
-  }
-  
-  #refresh_btn {
-    height: 25px;
-    width: 25px;
-    margin-right: 7px;
-    filter: invert(1);
-  }
-  
   /* Adjustments for smaller screens */
   @media screen and (max-width: 768px) {
     #dfTitlebar img {
@@ -279,22 +284,6 @@ function setAvatar(){
         #minimizeIcon {
           visibility: visible !important;
         }
-  }
-  
-  /* Adjust the margin for medium-sized screens */
-
-  /* Adjust the margin for small screens */
-  @media screen and (max-width: 768px) {
-    #minimizeIcon {
-      margin-left: 391px; /* Adjust as needed */
-   } 
-  }
-
-  /* Adjust the margin for extra-small screens */
-  @media screen and (max-width: 576px) {
-    #minimizeIcon {
-       margin-left: 50px; /* Adjust as needed */
-   }
   }
   `;
   // Insert the style at the beginning of the shadow root
@@ -368,9 +357,9 @@ function responsive_Bot_header(){
 // main cutomization function that calls other cusum methods
 function customizeUI(){
   setSizePosition();
-  create_menu_list();
+  createMenuAndRefreshIcon();
   setAvatar();
-  setRefreshIcon();
+  // setRefreshIcon();
   insertMicrophone();
   responsive_Bot_header();
   responsive_message_box();

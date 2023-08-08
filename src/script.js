@@ -1,5 +1,7 @@
 // flag to take acre of voice resposnses checkbox 
 var flag = false;
+// marker to check whether user closed df or not
+var user_closed_df = false;
 // ------------UI CUSTOMIZATION CODE STARTS -----------------------------------
 
 // menu method created a drop-down menu for dfg messenger
@@ -11,22 +13,22 @@ function createMenuAndRefreshIcon(){
   var containerDiv = document.createElement('div');
   containerDiv.style.display = 'flex';
   containerDiv.style.alignItems = 'center';
-  // Create the refresh icon
-  var refresh_icon = document.createElement('img');
-  refresh_icon.id = 'refresh_btn';
-  refresh_icon.src = 'svg_refresh_icon.svg';
-  refresh_icon.style.height = "25px";
-  refresh_icon.style.width = "25px";
-  refresh_icon.style.marginRight = '7px';
-  refresh_icon.style.filter = "invert(1)";
-  refresh_icon.title = 'Refresh chat';
-  refresh_icon.addEventListener('click', function (event) {
+  // Create the close icon
+  var close_icon = document.createElement('img');
+  close_icon.id = 'close_btn';
+  close_icon.src = 'close_icon.svg';
+  close_icon.style.height = "25px";
+  close_icon.style.width = "25px";
+  close_icon.style.marginRight = '7px';
+  close_icon.style.filter = "invert(1)";
+  close_icon.title = 'Exit chat';
+  close_icon.addEventListener('click', function (event) {
     console.log('chat-closed');
+    user_closed_df = true;
     closeAndStartNewChat();
   });
-
-  // Append the refresh icon to the container
-  containerDiv.appendChild(refresh_icon);
+  // Append the close icon to the container
+  containerDiv.appendChild(close_icon);
 
   // Existing code to create the dropdown menu
   var newDiv = document.createElement('div');
@@ -134,7 +136,6 @@ function createMenuAndRefreshIcon(){
 
   // Append the container to the title bar
   titleBar.appendChild(containerDiv);
-  
 }
 
 
@@ -194,9 +195,13 @@ function closeAndStartNewChat() {
   const parentElement = dfMessenger.parentElement;
   parentElement.removeChild(dfMessenger); // Remove the df-messenger element
   console.log('messenger-removed');
-  // Recreate the df-messenger element and append it back to the DOM to start a new chat
   const newDfMessenger = document.createElement('df-messenger');
-  newDfMessenger.setAttribute('intent', 'WELCOME');
+    // if user_closed_df is true than we don't need to fire the welcome intent as bot is gonna minimize
+  if (!user_closed_df){
+    // this section  will not get adds when user closes df through close btn
+    newDfMessenger.setAttribute('intent', 'WELCOME');
+  }
+  // Recreate the df-messenger element and append it back to the DOM to start a new chat
   newDfMessenger.setAttribute('chat-title', 'MealTicket');
   newDfMessenger.setAttribute('agent-id', 'b2a18834-c229-4b1c-94e0-53c76dc519d0');
   newDfMessenger.setAttribute('language-code', 'en');
@@ -205,27 +210,13 @@ function closeAndStartNewChat() {
   parentElement.appendChild(newDfMessenger);
   // add meal customization
   customizeUI();
+  // trigger FAB bttn only when user_close_df is true as we are not triggering WELCOME intent so it should minimize
+  if(user_closed_df){
+    var fabIcon = newDfMessenger.shadowRoot.getElementById('widgetIcon');
+    fabIcon.click();
+    console.log(user_closed_df);
+  }
 }
-
-
-// // fucntion to refresh df-messenger chat
-// function setRefreshIcon(){
-//   const titleBar = document.querySelector("df-messenger").shadowRoot.querySelector('df-messenger-chat').shadowRoot.querySelector('df-messenger-titlebar').shadowRoot.querySelector('.title-wrapper');
-//   var refresh_icon = document.createElement('img');
-//   refresh_icon.id = 'refresh_btn';
-//   refresh_icon.src = 'svg_refresh_icon.svg';
-//   refresh_icon.style.height = "25px";
-//   refresh_icon.style.width = "25px";
-//   refresh_icon.style.marginRight = '7px';
-//   refresh_icon.style.filter = "invert(1)";
-//   refresh_icon.title = 'Refresh chat';
-//   refresh_icon.addEventListener('click',function(event){
-//     console.log('chat-closed');
-//     closeAndStartNewChat();
-//   });
-//   titleBar.appendChild(refresh_icon);
-// }
-
 
 // function to give avatar and minimze button to df-messeneger
 function setAvatar(){
@@ -384,6 +375,21 @@ document.addEventListener('df-response-received', function(event) {
         setTimeout(message_clicked,0660);
       }
   }
+});
+
+
+// this function is called whenever dialogflow is created and attached to our website
+document.addEventListener('df-messenger-loaded',function(event){
+  document.querySelector('df-messenger').shadowRoot.getElementById('widgetIcon').addEventListener('click',function(event){
+    if(user_closed_df){
+      // once user has closed df we will create it again on the click of widgetIcon
+      user_closed_df = false;
+      // toggle the marker to convey that user has opened the df again after closing so we will create it again, 
+      // and this time marker will be false so welcome intent will get triggered on creation and,
+      // minimze button will not be clicked
+      closeAndStartNewChat();
+    }
+  });
 });
 
 // this function is called when first time our site is loaded(called by response received)

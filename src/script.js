@@ -202,7 +202,7 @@ function closeAndStartNewChat() {
     newDfMessenger.setAttribute('intent', 'WELCOME');
   }
   // Recreate the df-messenger element and append it back to the DOM to start a new chat
-  newDfMessenger.setAttribute('chat-title', 'MealTicket');
+  newDfMessenger.setAttribute('chat-title', 'Meal ticket');
   newDfMessenger.setAttribute('agent-id', 'b2a18834-c229-4b1c-94e0-53c76dc519d0');
   newDfMessenger.setAttribute('language-code', 'en');
   newDfMessenger.setAttribute('expand','false');

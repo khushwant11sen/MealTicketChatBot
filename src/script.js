@@ -302,6 +302,7 @@ function setSizePosition(){
       }
     @media only screen and (max-width: 741px) {
       div.chat-wrapper {
+        overflow: auto;
         width: 100% !important;
         height: 90%  !important;
         bottom:0 !important;

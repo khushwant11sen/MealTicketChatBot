@@ -14,6 +14,7 @@ main {
   margin: auto;
   width: 50%;
   padding: 20px;
+  user-select: none;
 }
 
 main > h1 {

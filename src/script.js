@@ -291,24 +291,36 @@ function setSizePosition(){
   // Create a new style element
   var style = document.createElement('style');
   style.textContent = `
-      div.chat-wrapper { 
+
+    div.chat-wrapper { 
           left: 2px ; 
-          width: 652px ; 
-          bottom:15px ;
-          height: 550px ;
+          width: 50% ; 
+          bottom:0;
+          height: 100% !important;
           transform: translateX(-5%) translateY(35%) scale(0.5, 0.5);
           transition: transform 0.1s ease, opacity 0.1s ease-in, height 0s ease 0.2s;
           
-      }
+    }
+    @media only screen and (min-device-width: 741px) and (max-device-width: 1024px){
+      div.chat-wrapper {
+        width: 75% !important;
+     } 
+   }
+    @media only screen and (max-width: 1024px) {
+      div.chat-wrapper {
+        height: calc(100% - 54px) !important;
+        transform: translateX(-5%) translateY(35%) scale(0.5, 0.5);
+        transition: transform 0.1s ease, opacity 0.1s ease-in, height 0s ease 0.2s;
+     } 
+   }
     @media only screen and (max-width: 741px) {
       div.chat-wrapper {
-        overflow: auto;
-        width: 100% !important;
-        height: 90%  !important;
-        bottom:0 !important;
-        left: 0 !important; 
-        right: 0 !important; 
+        width: 100%;
+       
     } 
+  }
+  
+  
   `;
   // Append the style element to the shadow root
   $r2.shadowRoot.appendChild(style);
@@ -342,6 +354,7 @@ function responsive_Bot_header(){
   var r3 = r2.shadowRoot.querySelector("df-messenger-titlebar");
   if(window.innerWidth <= 741){
      r3.style.width = '100%';
+   
   }
 }
 

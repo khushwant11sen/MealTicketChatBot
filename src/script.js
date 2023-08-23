@@ -386,7 +386,7 @@ document.addEventListener('df-response-received', function(event) {
       }
       if (botReply.toLowerCase().includes("selena")){
         console.log("greetings received");
-        setTimeout(message_clicked,0360);
+        setTimeout(message_clicked,0300);
       }
   }
 });

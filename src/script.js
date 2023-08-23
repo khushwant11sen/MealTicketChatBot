@@ -384,7 +384,7 @@ document.addEventListener('df-response-received', function(event) {
           console.log('Bot Reply: ', botReply);
           speakResponse(botReply);
       }
-      if (botReply.toLowerCase().includes("your name")){
+      if (botReply.toLowerCase().includes("selena")){
         console.log("greetings received");
         setTimeout(message_clicked,0660);
       }

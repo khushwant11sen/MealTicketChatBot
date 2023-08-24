@@ -226,9 +226,9 @@ function setAvatar(){
   var dfTitlebar = r3.shadowRoot.querySelector("#dfTitlebar");
   // Create a new image element
   var img = document.createElement("img");
-  img.src = './girl-avatar.png';
-  img.style.height = '36px';
-  img.style.width = '42px';
+  img.src = './avatar.png';
+  img.style.height = '46px';
+  img.style.width = '44px';
   img.style.marginRight = '10px';
   img.style.marginLeft = '10px';
   // Insert the image at the beginning of the dfTitlebar div

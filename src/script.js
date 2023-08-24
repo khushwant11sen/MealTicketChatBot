@@ -431,6 +431,7 @@ function loadDialogFlow() {
   document.addEventListener('DOMContentLoaded', function() {
     // Start speaking when the page has finished loading
     loadDialogFlow();
+    speakResponse('');
   });
 
 
@@ -512,12 +513,12 @@ function speakResponse(text){
       // Set the text to be spoken
       msg.text = text;
       // Uncomment the following line to set the voice of the speech (optional)
-      // msg.voice = speechSynthesis.getVoices().find(voice => voice.lang === 'en-US');
-    
+      mssg.voice = speechSynthesis.getVoices().find(voice => voice.name === 'Microsoft Zira - English (United States)');
       // Uncomment the following lines to change the speech rate and pitch (optional)
-      // msg.rate = 1.0; // Speech rate (0.1 to 10)
-      msg.pitch = 1.3; // Speech pitch (0 to 2)
+      mssg.rate = 0.97; // Speech rate (0.1 to 10)
+      mssg.pitch = 1.3; // Speech pitch (0 to 2)
       // Speak the text
+      console.log(mssg.voice);
       window.speechSynthesis.speak(msg);
     }else{
       console.log(window);

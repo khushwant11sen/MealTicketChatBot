@@ -227,10 +227,10 @@ function setAvatar(){
   // Create a new image element
   var img = document.createElement("img");
   img.src = './avatar.png';
-  img.style.height = '46px';
+  img.style.height = '49px';
   img.style.width = '44px';
   img.style.marginRight = '10px';
-  img.style.marginLeft = '10px';
+  img.style.marginLeft = '2px';
   // Insert the image at the beginning of the dfTitlebar div
   dfTitlebar.insertBefore(img, dfTitlebar.firstChild);
   // Adjust the style of the dfTitlebar div

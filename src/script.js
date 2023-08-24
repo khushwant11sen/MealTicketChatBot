@@ -513,12 +513,12 @@ function speakResponse(text){
       // Set the text to be spoken
       msg.text = text;
       // Uncomment the following line to set the voice of the speech (optional)
-      mssg.voice = speechSynthesis.getVoices().find(voice => voice.name === 'Microsoft Zira - English (United States)');
+      msg.voice = speechSynthesis.getVoices().find(voice => voice.name === 'Microsoft Zira - English (United States)');
       // Uncomment the following lines to change the speech rate and pitch (optional)
-      mssg.rate = 0.97; // Speech rate (0.1 to 10)
-      mssg.pitch = 1.3; // Speech pitch (0 to 2)
+      msg.rate = 0.97; // Speech rate (0.1 to 10)
+      msg.pitch = 1.3; // Speech pitch (0 to 2)
       // Speak the text
-      console.log(mssg.voice);
+      console.log(msg.voice);
       window.speechSynthesis.speak(msg);
     }else{
       console.log(window);

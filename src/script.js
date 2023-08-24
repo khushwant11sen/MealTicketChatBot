@@ -226,10 +226,11 @@ function setAvatar(){
   var dfTitlebar = r3.shadowRoot.querySelector("#dfTitlebar");
   // Create a new image element
   var img = document.createElement("img");
-  img.src = './meal-logo.png';
-  img.style.height = '39px';
+  img.src = './girl-avatar.png';
+  img.style.height = '36px';
   img.style.width = '42px';
-  img.style.marginRight = '0px';
+  img.style.marginRight = '10px';
+  img.style.marginLeft = '10px';
   // Insert the image at the beginning of the dfTitlebar div
   dfTitlebar.insertBefore(img, dfTitlebar.firstChild);
   // Adjust the style of the dfTitlebar div

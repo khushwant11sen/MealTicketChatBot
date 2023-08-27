@@ -529,3 +529,46 @@ function speakResponse(text){
     console.error('Error occured while speaking', error);
   }
 }
+//
+// Function to handle the click event
+// Function to send a message to Dialogflow Messenger
+
+function forceAttachEventListener(anchor) {    
+  // Clone the anchor element    
+  const clonedAnchor = anchor.cloneNode(true);        
+  // Attach our custom event listener to the cloned anchor    
+  clonedAnchor.addEventListener('click', function(event) {        
+    event.preventDefault(); // Prevent the default behavior        
+    event.stopPropagation(); // Stop the event from propagating to other listeners        
+    // Populate the message input bar with the chip's value        
+    const inputField = document.querySelector('df-messenger').shadowRoot.querySelector('df-messenger-chat').shadowRoot.querySelector('df-messenger-user-input').shadowRoot.querySelector('input');        
+    inputField.value += event.target.textContent+",  ";    
+     // Simulate 'Enter' keypress to submit the user message
+    const enterEvent = new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, view: window, bubbles: true, cancelable: true });
+    // Simulate 'input' event to trigger input event listeners (e.g., Dialogflow Messenger)
+    const inputEvent = new Event('input', { bubbles: true, cancelable: true });
+    inputField.dispatchEvent(inputEvent);
+    inputField.dispatchEvent(enterEvent);
+  });         
+  anchor.parentNode.replaceChild(clonedAnchor, anchor);
+}
+
+
+// Function to add onclick to the anchor tags inside df-chips
+function modifyDfChips(dfChip) {    
+  const dfChipsWrapper = dfChip.shadowRoot.querySelector(".df-chips-wrapper"); 
+  if (dfChipsWrapper) {        
+    const anchorTags = dfChipsWrapper.querySelectorAll('a');        
+    anchorTags.forEach(anchor => {            
+      forceAttachEventListener(anchor);      
+    });    
+  }
+}
+
+setInterval(function() {    
+  var r1 = document.querySelector("df-messenger");    
+  var r2 = r1.shadowRoot.querySelector("df-messenger-chat");    
+  var r3 = r2.shadowRoot.querySelector("df-message-list");
+  var dfChips = r3.shadowRoot.querySelectorAll("df-chips");
+  dfChips.forEach(modifyDfChips);
+}, 500); // Check every half second

@@ -542,7 +542,11 @@ function forceAttachEventListener(anchor) {
     event.stopPropagation(); // Stop the event from propagating to other listeners        
     // Populate the message input bar with the chip's value        
     const inputField = document.querySelector('df-messenger').shadowRoot.querySelector('df-messenger-chat').shadowRoot.querySelector('df-messenger-user-input').shadowRoot.querySelector('input');        
-    inputField.value += event.target.textContent+",  ";    
+    if (inputField.value == ''){
+      inputField.value += event.target.textContent;   
+    }else{
+        inputField.value += ', '+ event.target.textContent;   
+    }  
      // Simulate 'Enter' keypress to submit the user message
     const enterEvent = new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, view: window, bubbles: true, cancelable: true });
     // Simulate 'input' event to trigger input event listeners (e.g., Dialogflow Messenger)
@@ -570,5 +574,12 @@ setInterval(function() {
   var r2 = r1.shadowRoot.querySelector("df-messenger-chat");    
   var r3 = r2.shadowRoot.querySelector("df-message-list");
   var dfChips = r3.shadowRoot.querySelectorAll("df-chips");
-  dfChips.forEach(modifyDfChips);
+   var chipText = dfChips[dfChips.length-1].shadowRoot.querySelector('.df-chips-wrapper').querySelector('a').text;
+  console.log(chipText)
+  if(chipText.toLowerCase().match('yes') || chipText.toLowerCase().startsWith('less')){
+    console.log('yes/no message');
+  }else{
+    console.log('going for multiple options');
+    dfChips.forEach(modifyDfChips);
+  }
 }, 500); // Check every half second

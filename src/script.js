@@ -2,6 +2,11 @@
 var flag = false;
 // marker to check whether user closed df or not
 var user_closed_df = false;
+// marker for current intent received from bot in response recieved
+var current_intent = "none";
+// array for intents which will enable multiple chip select
+const multi_chip_intents = ["askCuisine","askDeliveryOrder - yes","askEquimentType", "askFoodDistributor", "askSalePromotions - no"];
+
 // ------------UI CUSTOMIZATION CODE STARTS -----------------------------------
 
 // menu method created a drop-down menu for dfg messenger
@@ -381,6 +386,7 @@ document.addEventListener('df-response-received', function(event) {
   const response = event.detail;
   if (response){
       const botReply = response.response.queryResult.fulfillmentMessages[0].text.text[0];
+      current_intent = response.response.queryResult.intent.displayName;
       if (botReply && flag){
           console.log('Bot Reply: ', botReply);
           speakResponse(botReply);
@@ -534,27 +540,31 @@ function speakResponse(text){
 // Function to send a message to Dialogflow Messenger
 
 function forceAttachEventListener(anchor) {    
-  // Clone the anchor element    
-  const clonedAnchor = anchor.cloneNode(true);        
-  // Attach our custom event listener to the cloned anchor    
-  clonedAnchor.addEventListener('click', function(event) {        
-    event.preventDefault(); // Prevent the default behavior        
-    event.stopPropagation(); // Stop the event from propagating to other listeners        
-    // Populate the message input bar with the chip's value        
-    const inputField = document.querySelector('df-messenger').shadowRoot.querySelector('df-messenger-chat').shadowRoot.querySelector('df-messenger-user-input').shadowRoot.querySelector('input');        
-    if (inputField.value == ''){
-      inputField.value += event.target.textContent;   
+   if(anchor.text.toLowerCase().match('other')){
+    console.log("multiple chip select enabled excluding others for ",current_intent);
     }else{
-        inputField.value += ', '+ event.target.textContent;   
-    }  
-     // Simulate 'Enter' keypress to submit the user message
-    const enterEvent = new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, view: window, bubbles: true, cancelable: true });
-    // Simulate 'input' event to trigger input event listeners (e.g., Dialogflow Messenger)
-    const inputEvent = new Event('input', { bubbles: true, cancelable: true });
-    inputField.dispatchEvent(inputEvent);
-    inputField.dispatchEvent(enterEvent);
-  });         
-  anchor.parentNode.replaceChild(clonedAnchor, anchor);
+      // Clone the anchor element  
+      const clonedAnchor = anchor.cloneNode(true);  
+      // Attach our custom event listener to the cloned anchor    
+      clonedAnchor.addEventListener('click', function(event) {  
+        event.preventDefault(); // Prevent the default behavior        
+        event.stopPropagation(); // Stop the event from propagating to other listeners        
+        // Populate the message input bar with the chip's value        
+        const inputField = document.querySelector('df-messenger').shadowRoot.querySelector('df-messenger-chat').shadowRoot.querySelector('df-messenger-user-input').shadowRoot.querySelector('input');  
+        if (inputField.value == ''){
+          inputField.value += event.target.textContent;   
+        }else{
+          inputField.value += ', '+ event.target.textContent;   
+        }      
+        // Simulate 'Enter' keypress to submit the user message
+        const enterEvent = new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, view: window, bubbles: true, cancelable: true });
+        // Simulate 'input' event to trigger input event listeners (e.g., Dialogflow Messenger)
+        const inputEvent = new Event('input', { bubbles: true, cancelable: true });
+        inputField.dispatchEvent(inputEvent);
+        inputField.dispatchEvent(enterEvent);
+      });         
+      anchor.parentNode.replaceChild(clonedAnchor, anchor);
+  }   
 }
 
 
@@ -570,16 +580,11 @@ function modifyDfChips(dfChip) {
 }
 
 setInterval(function() {    
-  var r1 = document.querySelector("df-messenger");    
-  var r2 = r1.shadowRoot.querySelector("df-messenger-chat");    
-  var r3 = r2.shadowRoot.querySelector("df-message-list");
-  var dfChips = r3.shadowRoot.querySelectorAll("df-chips");
-   var chipText = dfChips[dfChips.length-1].shadowRoot.querySelector('.df-chips-wrapper').querySelector('a').text;
-  console.log(chipText)
-  if(chipText.toLowerCase().match('yes') || chipText.toLowerCase().startsWith('less')){
-    console.log('yes/no message');
-  }else{
-    console.log('going for multiple options');
+ if (multi_chip_intents.includes(current_intent)){
+    var r1 = document.querySelector("df-messenger");   
+    var r2 = r1.shadowRoot.querySelector("df-messenger-chat");    
+    var r3 = r2.shadowRoot.querySelector("df-message-list");
+    var dfChips = r3.shadowRoot.querySelectorAll("df-chips");
     dfChips.forEach(modifyDfChips);
   }
 }, 500); // Check every half second

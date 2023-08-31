@@ -554,7 +554,11 @@ function forceAttachEventListener(anchor) {
         if (inputField.value == ''){
           inputField.value += event.target.textContent;   
         }else{
-          inputField.value += ', '+ event.target.textContent;   
+          if (inputField.value.includes(event.target.textContent)){
+            console.log(event.target.textContent+" already selected!");
+          }else{
+            inputField.value += ', '+ event.target.textContent;   
+          }
         }      
         // Simulate 'Enter' keypress to submit the user message
         const enterEvent = new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, view: window, bubbles: true, cancelable: true });

@@ -554,8 +554,18 @@ function forceAttachEventListener(anchor) {
         if (inputField.value == ''){
           inputField.value += event.target.textContent;   
         }else{
-          if (inputField.value.includes(event.target.textContent)){
-            console.log(event.target.textContent+" already selected!");
+            if (inputField.value.includes(event.target.textContent)){
+              var indexOf = inputField.value.indexOf(event.target.textContent);
+              if(indexOf == 0){
+                if(inputField.value.includes(event.target.textContent+',')){
+                  inputField.value = inputField.value.replace(event.target.textContent+', ','');
+                }else{
+                  inputField.value = inputField.value.replace(event.target.textContent,'');
+                }
+              }else{
+                inputField.value = inputField.value.replace(', '+event.target.textContent,'');
+              }
+              console.log(event.target.textContent+" removed!");
           }else{
             inputField.value += ', '+ event.target.textContent;   
           }

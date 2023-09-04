@@ -644,5 +644,5 @@ function initializeObserver() {
 }
   // Ensure the DOM is fully loaded before initializing the observer
 document.addEventListener("DOMContentLoaded", function() {    
-  setTimeout(initializeObserver, 3000);
+  setTimeout(initializeObserver, 2000);
 });

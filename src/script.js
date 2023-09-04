@@ -513,7 +513,7 @@ function sendMessage(content) {
 }
 
 // fucntion to speak responses for dialogflow
-function speakResponse(text){
+function speakResponseOld(text){
   try{
     if ('speechSynthesis' in window){
       const msg = new SpeechSynthesisUtterance();
@@ -646,3 +646,26 @@ function initializeObserver() {
 document.addEventListener("DOMContentLoaded", function() {    
   setTimeout(initializeObserver, 2000);
 });
+
+function speakResponse(text){
+  fetch('http://127.0.0.1:5000/synthesize', {    
+    method: 'POST',    
+    headers: {       
+      'Content-Type': 'application/json'    
+    },    
+    body: JSON.stringify({ text: text })})
+    .then(response => response.json())
+    .then(data => {   
+       const audioData = Uint8Array.from(atob(data.audio), c => c.charCodeAt(0)); 
+       const audioContext = new (window.AudioContext || window.webkitAudioContext)();   
+       audioContext.decodeAudioData(audioData.buffer, function(buffer) {        
+        const source = audioContext.createBufferSource();        
+        source.buffer = buffer;        
+        source.connect(audioContext.destination);        
+        source.start(0);    
+      });
+    })
+    .catch(error => {    
+      console.error('Error occurred while fetching audio', error);
+    });
+}

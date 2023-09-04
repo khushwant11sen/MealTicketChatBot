@@ -634,7 +634,7 @@ function initializeObserver() {
       if (mutation.addedNodes.length) {                
         var messages = ele.querySelectorAll(".message");                
         messages.forEach(msg => {                    
-          msg.style.fontSize = '16px';                
+          msg.style.fontSize = '20px';                
         });            
       }        
     });    

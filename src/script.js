@@ -221,6 +221,7 @@ function closeAndStartNewChat() {
     fabIcon.click();
     console.log(user_closed_df);
   }
+  initializeObserver();
 }
 
 // function to give avatar and minimze button to df-messeneger
@@ -603,16 +604,45 @@ setInterval(function() {
 }, 500); // Check every half second
 
 
-setInterval(function() {    
+// setInterval(function() {    
    
+//   var r1 = document.querySelector("df-messenger");    
+//   var r2 = r1.shadowRoot.querySelector("df-messenger-chat"); 
+//   var r3 = r2.shadowRoot.querySelector("df-message-list"); 
+//   var ele = r3.shadowRoot.querySelector("#messageList");
+//   messages = ele.querySelectorAll(".message");    
+//   messages.forEach(msg => {        
+//     msg.style.fontSize = '16px';   
+//   });
+   
+//  }, 500); // Check every half second
+
+function initializeObserver() {    
+  // Access the shadow roots    
   var r1 = document.querySelector("df-messenger");    
-  var r2 = r1.shadowRoot.querySelector("df-messenger-chat"); 
-  var r3 = r2.shadowRoot.querySelector("df-message-list"); 
-  var ele = r3.shadowRoot.querySelector("#messageList");
-  messages = ele.querySelectorAll(".message");    
-  messages.forEach(msg => {        
-    msg.style.fontSize = '16px';   
-  });
-   
- }, 500); // Check every half second
- 
+  var r2 = r1.shadowRoot.querySelector("df-messenger-chat");    
+  var r3 = r2.shadowRoot.querySelector("df-message-list");    
+  var ele = r3.shadowRoot.querySelector("#messageList");    
+  // If any of the elements are not found, exit the function    
+  if (!r1 || !r2 || !r3 || !ele) {        
+    console.error("One or more elements not found. Exiting function.");        
+    return;    
+  }    
+  // Define the observer    
+  var observer = new MutationObserver(function(mutations) {        
+    mutations.forEach(function(mutation) {            
+      if (mutation.addedNodes.length) {                
+        var messages = ele.querySelectorAll(".message");                
+        messages.forEach(msg => {                    
+          msg.style.fontSize = '16px';                
+        });            
+      }        
+    });    
+  });    
+  // Start observing    
+  observer.observe(ele, { childList: true, subtree: true });
+}
+  // Ensure the DOM is fully loaded before initializing the observer
+document.addEventListener("DOMContentLoaded", function() {    
+  setTimeout(initializeObserver, 3000);
+});

@@ -364,7 +364,6 @@ function responsive_Bot_header(){
   }
 }
 
-
 // main cutomization function that calls other cusum methods
 function customizeUI(){
   setSizePosition();
@@ -602,3 +601,18 @@ setInterval(function() {
     dfChips.forEach(modifyDfChips);
   }
 }, 500); // Check every half second
+
+
+setInterval(function() {    
+   
+  var r1 = document.querySelector("df-messenger");    
+  var r2 = r1.shadowRoot.querySelector("df-messenger-chat"); 
+  var r3 = r2.shadowRoot.querySelector("df-message-list"); 
+  var ele = r3.shadowRoot.querySelector("#messageList");
+  messages = ele.querySelectorAll(".message");    
+  messages.forEach(msg => {        
+    msg.style.fontSize = '16px';   
+  });
+   
+ }, 500); // Check every half second
+ 

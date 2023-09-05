@@ -388,8 +388,9 @@ document.addEventListener('df-response-received', function(event) {
       const botReply = response.response.queryResult.fulfillmentMessages[0].text.text[0];
       current_intent = response.response.queryResult.intent.displayName;
       if (botReply && flag){
-          console.log('Bot Reply: ', botReply);
           speakResponse(botReply);
+          console.log('Bot Reply: ', botReply);
+         
       }
       if (botReply.toLowerCase().includes("selena")){
         console.log("greetings received");
@@ -438,7 +439,7 @@ function loadDialogFlow() {
   document.addEventListener('DOMContentLoaded', function() {
     // Start speaking when the page has finished loading
     loadDialogFlow();
-    speakResponse('');
+    speakResponseOld('');
   });
 
 
@@ -522,7 +523,7 @@ function speakResponseOld(text){
       // Uncomment the following line to set the voice of the speech (optional)
       msg.voice = speechSynthesis.getVoices().find(voice => voice.name === 'Microsoft Zira - English (United States)');
       // Uncomment the following lines to change the speech rate and pitch (optional)
-      msg.rate = 0.97; // Speech rate (0.1 to 10)
+      msg.rate = 0.95; // Speech rate (0.1 to 10)
       msg.pitch = 1.3; // Speech pitch (0 to 2)
       // Speak the text
       console.log(msg.voice);
@@ -634,7 +635,7 @@ function initializeObserver() {
       if (mutation.addedNodes.length) {                
         var messages = ele.querySelectorAll(".message");                
         messages.forEach(msg => {                    
-          msg.style.fontSize = '20px';                
+          msg.style.fontSize = '17px';                
         });            
       }        
     });    
@@ -665,7 +666,8 @@ function speakResponse(text){
         source.start(0);    
       });
     })
-    .catch(error => {    
+    .catch(error => {   
+      speakResponseOld(text);
       console.error('Error occurred while fetching audio', error);
     });
 }

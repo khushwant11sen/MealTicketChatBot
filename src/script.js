@@ -478,7 +478,7 @@ async function handleAudio() {
           recognition.continuous = true;
           recognition.interimResults = true;
           recognition.onresult = (event) => {
-              const userSpokenText = event.results[0][0].transcript;
+              var userSpokenText = event.results[0][0].transcript;
               console.log('User Spoken Text:', userSpokenText);
               // Pass the user's spoken text to Dialogflow Messenger for processing
               if (userSpokenText.toLowerCase().includes('yes') || userSpokenText.toLowerCase().includes("no")){

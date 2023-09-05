@@ -475,8 +475,8 @@ async function handleAudio() {
         grammarList.addFromString("yes", 1);
         grammarList.addFromString("no", 1);
         if (recognition) {
-          recognition.continuous = false;
-          recognition.interimResults = false;
+          recognition.continuous = true;
+          recognition.interimResults = true;
           recognition.onresult = (event) => {
               const userSpokenText = event.results[0][0].transcript;
               console.log('User Spoken Text:', userSpokenText);

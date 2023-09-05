@@ -556,17 +556,11 @@ function speakResponseOld(text){
 // Function to send a message to Dialogflow Messenger
 
 function forceAttachEventListener(anchor) {    
-   if(anchor.text.toLowerCase().match('other') || !multi_chip_intents.includes(current_intent)){
-     anchor.style.color = "#fff";     
-     anchor.onmouseover = () => anchor.style.background = "hsl(0, 0%, 0%)";  
-     anchor.onmouseout = () => anchor.style.background = "#6a7681"; 
-    }
-    else{
+   if(anchor.text.toLowerCase().match('other')){
+    console.log("multiple chip select enabled excluding others for ",current_intent);
+    }else{
       // Clone the anchor element  
       const clonedAnchor = anchor.cloneNode(true);  
-      clonedAnchor.style.color = "#fff";     
-      clonedAnchor.onmouseover = () => clonedAnchor.style.background = "hsl(0, 0%, 0%)";  
-      clonedAnchor.onmouseout = () => clonedAnchor.style.background = "#6a7681"; // Reset background color  
       // Attach our custom event listener to the cloned anchor    
       clonedAnchor.addEventListener('click', function(event) {  
         event.preventDefault(); // Prevent the default behavior        
@@ -604,21 +598,25 @@ function forceAttachEventListener(anchor) {
 }
 
 
+// Function to add onclick to the anchor tags inside df-chips
 function modifyDfChips(dfChip) {    
-  const dfChipsWrapper = dfChip.shadowRoot.querySelector(".df-chips-wrapper");     
+  const dfChipsWrapper = dfChip.shadowRoot.querySelector(".df-chips-wrapper"); 
   if (dfChipsWrapper) {        
-    dfChipsWrapper.querySelectorAll('a').forEach(anchor => {     
-        forceAttachEventListener(anchor);                    
+    const anchorTags = dfChipsWrapper.querySelectorAll('a');        
+    anchorTags.forEach(anchor => {            
+      forceAttachEventListener(anchor);      
     });    
   }
 }
 
-setInterval(function() {   
+setInterval(function() {    
+ if (multi_chip_intents.includes(current_intent)){
     var r1 = document.querySelector("df-messenger");   
     var r2 = r1.shadowRoot.querySelector("df-messenger-chat");    
     var r3 = r2.shadowRoot.querySelector("df-message-list");
     var dfChips = r3.shadowRoot.querySelectorAll("df-chips");
     dfChips.forEach(modifyDfChips);
+  }
 }, 500); // Check every half second
 
 
@@ -688,44 +686,3 @@ function speakResponse(text){
       console.error('Error occurred while fetching audio', error);
     });
 }
-
-function initializeObserverChip() {    
-  // Access the shadow roots    
-  var r1 = document.querySelector("df-messenger");
-  var r2 = r1.shadowRoot.querySelector("df-messenger-chat");    
-  var r3 = r2.shadowRoot.querySelector("df-message-list");    
-  var dfChips = r3.shadowRoot.querySelectorAll("df-chips");    
-  // If any of the elements are not found, exit the function    
-  if (!r1 || !r2 || !r3 || !dfChips || dfChips.length === 0) {        
-    console.error("One or more elements not found. Exiting function.");        
-    return;    
-  }    
-  // Define the observer    
-  var observer = new MutationObserver(function(mutations) {        
-    mutations.forEach(function(mutation) {            
-      if (mutation.addedNodes.length) {                
-        const dfChipsWrapper = mutation.target.shadowRoot.querySelector(".df-chips-wrapper");
-        if (dfChipsWrapper) {                    
-          var anchors = dfChipsWrapper.querySelectorAll('a');
-          anchors.forEach(anchor => {                        
-            anchor.style.color = "#fff";
-            anchor.style.fontSize = "20px";
-      });               
-   }           
-    }        
-   });    
-  });    
-  // Start observing each df-chip    
-  dfChips.forEach(chip => {        
-    observer.observe(chip, { childList: true, subtree: true });    
-  });
-}
-// Ensure the DOM is fully loaded before initializing the observer
-document.addEventListener("DOMContentLoaded", function() {    
-  let intervalId = setInterval(function() {        
-    // If initializeObserverChip returns true, clear the interval        
-    if (initializeObserverChip()) {            
-      clearInterval(intervalId);        
-    }    
-  }, 200); // Check every half second
-});

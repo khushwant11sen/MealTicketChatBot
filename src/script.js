@@ -471,6 +471,9 @@ async function handleAudio() {
     // Perform audio input - convert user's spoken query to text using Web Speech API (SpeechRecognition)
     try {
         const recognition = detectSpeechRecognition();
+        const grammarList = new webkitSpeechGrammarList();
+        grammarList.addFromString("yes", 1);
+        grammarList.addFromString("no", 1);
         if (recognition) {
           recognition.continuous = false;
           recognition.interimResults = false;
@@ -478,6 +481,18 @@ async function handleAudio() {
               const userSpokenText = event.results[0][0].transcript;
               console.log('User Spoken Text:', userSpokenText);
               // Pass the user's spoken text to Dialogflow Messenger for processing
+              if (userSpokenText.toLowerCase().includes('yes') || userSpokenText.toLowerCase().includes("no")){
+              var uniqueWords = []
+              console.log('yes/no ',userSpokenText);
+              const words = userSpokenText.split(''); 
+              for(const word of words){
+                if(!uniqueWords.includes(word)){
+                  uniqueWords.push(word);
+                }
+              }
+              userSpokenText = uniqueWords.join('');
+              console.log(userSpokenText);
+            }
               $("#mic_btn").removeClass("red");
               $("#mic_btn").addClass("black");
               sendMessage(userSpokenText);

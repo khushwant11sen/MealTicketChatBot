@@ -652,7 +652,7 @@ function initializeObserver() {
       if (mutation.addedNodes.length) {                
         var messages = ele.querySelectorAll(".message");                
         messages.forEach(msg => {                    
-          msg.style.fontSize = '17px';                
+          msg.style.fontSize = '20px'; // changed to 20 from 17                
         });            
       }        
     });    
@@ -709,7 +709,7 @@ function initializeObserverChip() {
           var anchors = dfChipsWrapper.querySelectorAll('a');
           anchors.forEach(anchor => {                        
             anchor.style.color = "#fff";
-            anchor.style.fontSize = "20px";
+            anchor.style.fontSize = "22px"; //changed from 20 to 22
       });               
    }           
     }        

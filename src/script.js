@@ -5,7 +5,7 @@ var user_closed_df = false;
 // marker for current intent received from bot in response recieved
 var current_intent = "none";
 // array for intents which will enable multiple chip select
-const multi_chip_intents = ["askCuisine","askDeliveryOrder - yes","askEquimentType", "askFoodDistributor", "askSalePromotions - no"];
+const multi_chip_intents = ["askDeliveryOrder - yes","askEquimentType", "askFoodDistributor", "askSalePromotions - no"];
 
 // ------------UI CUSTOMIZATION CODE STARTS -----------------------------------
 
@@ -250,7 +250,7 @@ function setAvatar(){
     justify-content: space-between;
     align-items: center;
     padding-left:0px;
-    font-size: 20px; //increased Title font 
+    font-size: 21px; //increased Title font 
   }
   
   #minimizeIcon {

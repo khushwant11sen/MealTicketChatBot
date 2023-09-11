@@ -158,15 +158,7 @@ function insertMicrophone(){
   microphoneIcon.onclick = function() {
     var blackMic = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mic" width="20" height="20"><path d="M12 1a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V4a3 3 0 0 1 3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>';
     var redMic = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="red" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mic" width="20" height="20"><path d="M12 1a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V4a3 3 0 0 1 3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>';
-    if (this.src == blackMic) {
-        this.src = redMic;
-        handleAudio(); 
-        setTimeout(() => {
-            this.src = blackMic;
-        }, 7000); // Change back to black after 7 seconds
-      } else {
-        this.src = blackMic;
-    }
+    handleAudio(microphoneIcon,blackMic,redMic); 
   };
   // Insert the microphone icon before the send icon in the input container
   inputContainer.insertBefore(microphoneIcon, sent_btn);
@@ -465,10 +457,8 @@ function detectSpeechRecognition() {
 }
 
 // function to listen for user voice
-async function handleAudio() {
+async function handleAudio(microphoneIcon,blackMic,redMic) {
     mcbtn = document.querySelector('#mic_btn');
-    $("#mic_btn").removeClass("black");
-    $("#mic_btn").addClass("red");
     // Perform audio input - convert user's spoken query to text using Web Speech API (SpeechRecognition)
     try {
         const recognition = detectSpeechRecognition();
@@ -478,25 +468,23 @@ async function handleAudio() {
           recognition.onresult = (event) => {
               var userSpokenText = event.results[0][0].transcript;
               console.log('User Spoken Text:', userSpokenText); 
-              $("#mic_btn").removeClass("red");
-              $("#mic_btn").addClass("black");
+              microphoneIcon.src = blackMic;
               sendMessage(userSpokenText);
           };
           recognition.onerror = (event) => {
               console.log("An error occurred while recognizing");
-              $("#mic_btn").removeClass("red");
-              $("#mic_btn").addClass("black");
+              microphoneIcon.src = blackMic;
           };
-          recognition.onnomatch = (event) => {
-              console.log("No match found while recognizing");
-              $("#mic_btn").removeClass("red");
-              $("#mic_btn").addClass("black");
+          recognition.onaudiostart = () => {
+            microphoneIcon.src = redMic
+          };
+          recognition.onaudioend = () => {
+            microphoneIcon.src = blackMic;
           };
           recognition.start();
       }
     } catch (error) {
-        $("#mic_btn").removeClass("red");
-        $("#mic_btn").addClass("black");
+        microphoneIcon.src = blackMic;
         console.error('Error with speech recognition:', error);
     }
 }

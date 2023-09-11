@@ -543,6 +543,7 @@ function speakResponseOld(text){
 function forceAttachEventListener(anchor) {    
    if(anchor.text.toLowerCase().match('other') || !multi_chip_intents.includes(current_intent)){
      anchor.style.color = "#fff";     
+     anchor.style.fontSize = "18px"; 
      anchor.onmouseover = () => anchor.style.background = "hsl(0, 0%, 0%)";  
      anchor.onmouseout = () => anchor.style.background = "#6a7681"; 
     }
@@ -550,6 +551,7 @@ function forceAttachEventListener(anchor) {
       // Clone the anchor element  
       const clonedAnchor = anchor.cloneNode(true);  
       clonedAnchor.style.color = "#fff";     
+      clonedAnchor.style.fontSize = "18px"; 
       clonedAnchor.onmouseover = () => clonedAnchor.style.background = "hsl(0, 0%, 0%)";  
       clonedAnchor.onmouseout = () => clonedAnchor.style.background = "#6a7681"; // Reset background color  
       // Attach our custom event listener to the cloned anchor    

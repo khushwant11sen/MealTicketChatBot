@@ -468,11 +468,11 @@ async function handleAudio(microphoneIcon,blackMic,redMic) {
           recognition.onresult = (event) => {
               var userSpokenText = event.results[0][0].transcript;
               console.log('User Spoken Text:', userSpokenText); 
-              microphoneIcon.src = blackMic;
+              // microphoneIcon.src = blackMic;
               sendMessage(userSpokenText);
           };
           recognition.onerror = (event) => {
-              console.log("An error occurred while recognizing");
+              console.log("An error occurred while recognising");
               microphoneIcon.src = blackMic;
           };
           recognition.onaudiostart = () => {
